@@ -1,0 +1,38 @@
+{
+  "name": "easemob-sdk",
+  "version": "0.0.1",
+  "description": "nodejs sdk for easemob",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leoliew/easemob-sdk.git"
+  },
+  "keywords": [
+    "im",
+    "chatroom",
+    "sdk",
+    "easemob"
+  ],
+  "dependencies": {
+    "request": "2.65.0"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  },
+  "author": [
+    "Leo Liu <zmliu0077@gmail.com>",
+    "Wayne Liang",
+    "Liman Wang"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leoliew/easemob-sdk/issues"
+  },
+  "homepage": "https://github.com/leoliew/easemob-sdk#readme"
+}
