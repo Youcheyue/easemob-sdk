@@ -12,7 +12,7 @@ describe( 'User Test', function(){
         console.log(err);
         console.log(result);
       }else{
-        app_const.TOKEN = result;
+        testConfig.TOKEN = result;
         done();
       }
 
@@ -22,13 +22,24 @@ describe( 'User Test', function(){
   });
 
   after( function( done ) {
-    done();
+    easemobSDK.user.remote(testConfig.batch_user[0].username ,testConfig.TOKEN,function( err, res,body ){
+
+      if(!err && res.statusCode == 200){
+        easemobSDK.user.remote(testConfig.batch_user[1].username ,testConfig.TOKEN,function( err, res,body ){
+          if(!err && res.statusCode == 200){
+            done();
+          }
+        });
+      }
+
+
+    });
   });
 
   describe( 'Create user', function() {
     it( 'Should return OK', function( done ) {
 
-      easemobSDK.user.create(testConfig.user.username,testConfig.user.password,function( err, res,body ){
+      easemobSDK.user.create(testConfig.user.username,testConfig.user.password,testConfig.TOKEN ,function( err, res,body ){
 
         should.not.exists( err );
 
@@ -49,7 +60,7 @@ describe( 'User Test', function(){
 
   describe( 'Batch create user', function() {
     it( 'Should return OK', function( done ) {
-      easemobSDK.user.create_batch(testConfig.batch_user ,function( err, res,body ){
+      easemobSDK.user.create_batch(testConfig.batch_user,testConfig.TOKEN  ,function( err, res,body ){
 
         should.not.exists( err );
 
@@ -68,7 +79,7 @@ describe( 'User Test', function(){
 
   describe( 'Get user', function() {
     it( 'Should return OK', function( done ) {
-      easemobSDK.user.get(testConfig.user.username ,function( err, res,body ){
+      easemobSDK.user.get(testConfig.user.username ,testConfig.TOKEN ,function( err, res,body ){
 
         should.not.exists( err );
 
@@ -87,7 +98,7 @@ describe( 'User Test', function(){
 
   describe( 'Batch Get user', function() {
     it( 'Should return OK', function( done ) {
-      easemobSDK.user.get_batch(testConfig.user_limit ,function( err, res,body ){
+      easemobSDK.user.get_batch(testConfig.user_limit ,testConfig.TOKEN ,function( err, res,body ){
 
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
@@ -100,9 +111,44 @@ describe( 'User Test', function(){
 
   } );
 
+  describe( 'Reset user password', function() {
+    it( 'Should return OK', function( done ) {
+      easemobSDK.user.reset_password(testConfig.user.username ,testConfig.user_newpassword ,testConfig.TOKEN ,function( err, res,body ){
+
+        should.not.exists( err );
+
+        res.statusCode.should.equal( 200 );
+        body.action.should.equal('set user password');
+
+        done();
+
+      });
+
+    } );
+
+  } );
+
+  describe( 'Set user nickname', function() {
+    it( 'Should return OK', function( done ) {
+      easemobSDK.user.set_nickname(testConfig.user.username ,testConfig.user_nickname ,testConfig.TOKEN ,function( err, res,body ){
+
+        should.not.exists( err );
+
+        res.statusCode.should.equal( 200 );
+        body.entities[0].username.should.equal(testConfig.user.username);
+        body.entities[0].nickname.should.equal(testConfig.user_nickname);
+
+        done();
+
+      });
+
+    } );
+
+  } );
+
   describe( 'Remote user', function() {
     it( 'Should return OK', function( done ) {
-      easemobSDK.user.remote(testConfig.user.username ,function( err, res,body ){
+      easemobSDK.user.remote(testConfig.user.username ,testConfig.TOKEN ,function( err, res,body ){
 
         should.not.exists( err );
 
@@ -120,14 +166,12 @@ describe( 'User Test', function(){
 /*
   describe( 'Batch remote user', function() {
     it( 'Should return OK', function( done ) {
-      easemobSDK.user.create_batch(testConfig.user_limit ,function( err, res,body ){
+      easemobSDK.user.remote_batch(testConfig.user_limit ,testConfig.TOKEN ,function( err, res,body ){
 
         should.not.exists( err );
 
         res.statusCode.should.equal( 200 );
 
-        body.entities[0].username.should.equal(testConfig.batch_user[0].username);
-        body.entities[1].username.should.equal(testConfig.batch_user[1].username);
 
         done();
 
@@ -137,4 +181,6 @@ describe( 'User Test', function(){
 
   } );
 */
+
+
 });
