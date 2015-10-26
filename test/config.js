@@ -1,4 +1,5 @@
 module.exports = {
+  TOKEN           : '',
   client_id 	   	: 'YXA6MlpEAHu9EeWXHj2sGRltOg',
   client_secret 	: 'YXA6ZlLtpZwMg-EES5tzbo37dCIpJbc',
   org_name        : 'wayneliang',
@@ -17,5 +18,8 @@ module.exports = {
   user_limit        : 2,
   user_newpassword  : '987654321',
   user_nickname     : '梁健伟'
+
+
+
 
 }
