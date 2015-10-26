@@ -146,6 +146,52 @@ describe( 'User Test', function(){
 
   } );
 
+  describe( 'Get user status', function() {
+    it( 'Should return OK', function( done ) {
+      easemobSDK.user.get_status(testConfig.user.username ,testConfig.TOKEN ,function( err, res,body ){
+
+        should.not.exists( err );
+        res.statusCode.should.equal( 200 );
+
+        done();
+
+      });
+
+    } );
+
+  } );
+
+  describe( 'Get user offline msg count', function() {
+    it( 'Should return OK', function( done ) {
+      easemobSDK.user.get_offline_msg_count(testConfig.offline_username.username ,testConfig.TOKEN ,function( err, res,body ){
+
+        should.not.exists( err );
+        res.statusCode.should.equal( 200 );
+
+        done();
+
+      });
+
+    } );
+
+  } );
+/*
+  describe( 'Get user offline msg status', function() {
+    it( 'Should return OK', function( done ) {
+      easemobSDK.user.get_offline_msg_count(testConfig.offline_username.username,msg_id ,testConfig.TOKEN ,function( err, res,body ){
+
+        should.not.exists( err );
+        res.statusCode.should.equal( 200 );
+        console.log(body);
+        done();
+
+      });
+
+    } );
+
+  } );
+  */
+
   describe( 'Remote user', function() {
     it( 'Should return OK', function( done ) {
       easemobSDK.user.remote(testConfig.user.username ,testConfig.TOKEN ,function( err, res,body ){

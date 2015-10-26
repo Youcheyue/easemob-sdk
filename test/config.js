@@ -17,7 +17,12 @@ module.exports = {
   }],
   user_limit        : 2,
   user_newpassword  : '987654321',
-  user_nickname     : '梁健伟'
+  user_nickname     : '梁健伟',
+  offline_username : {
+    username        : 'test1',
+    password        : '123456'
+
+  }
 
 
 
