@@ -13,10 +13,12 @@ describe( 'User Test', function(){
         console.log(result);
       }else{
         app_const.TOKEN = result;
+        done();
       }
+
     });
 
-    done();
+
   });
 
   after( function( done ) {
