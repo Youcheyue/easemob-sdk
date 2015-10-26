@@ -27,7 +27,7 @@ $ make test
 
 
 ```js
-var easemob_sdk = require('easemob_sdk');
+var easemob_sdk = require('easemob-sdk');
 easemob_sdk.init(org_name,app_name,client_id,client_secret);
 easemob_sdk.user.create( 'leo', 'leo_password', function(err, res, body) {
   if(err || (res.statusCode != 200)) {
