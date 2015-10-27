@@ -20,7 +20,7 @@ $ npm install
 Run em!
 
 ```shell
-$ make test
+$ npm test
 ```
 
 ## Usage
