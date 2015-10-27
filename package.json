@@ -25,11 +25,12 @@
     "request": "2.65.0"
   },
   "devDependencies": {
-    "mocha": "*",
-    "should": "*",
     "async": "^1.5.0",
+    "coveralls": "^2.11.4",
+    "mocha": "*",
+    "mocha-lcov-reporter": "^1.0.0",
     "nyc": "^2.1.0",
-    "coveralls": "^2.11.2"
+    "should": "*"
   },
   "author": [
     "Leo Liu <zmliu0077@gmail.com>",
