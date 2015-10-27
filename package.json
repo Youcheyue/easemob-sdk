@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "npm install mocha@2.2.5 should@6.0.3 && cd test && mocha ."
+    "test": "cd test && mocha ."
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,8 @@
     "request": "2.65.0"
   },
   "devDependencies": {
-    "mocha": "*"
+    "mocha": "*",
+    "should": "*"
   },
   "author": [
     "Leo Liu <zmliu0077@gmail.com>",
