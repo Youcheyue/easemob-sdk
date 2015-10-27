@@ -8,7 +8,7 @@
 [travis-image]: https://travis-ci.org/leoliew/easemob-sdk.svg?branch=master
 [travis-url]: https://travis-ci.org/leoliew/easemob-sdk
 [coveralls-image]: https://coveralls.io/github/leoliew/easemob-sdk?branch=master
-[coveralls-url]: https://coveralls.io/r/leoliew/easemob-sdk
+[coveralls-url]: https://coveralls.io/repos/leoliew/easemob-sdk/badge.svg?branch=master&service=github
 [gitter-image]: https://badges.gitter.im/Join%20Chat.svg
 [gitter-url]: https://gitter.im/leoliew/easemob-sdk
 [DependencyStatus-image]: https://gemnasium.com/leoliew/easemob-sdk.svg
