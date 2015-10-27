@@ -100,7 +100,56 @@ describe( 'User Test', function(){
   } );
 
 
-  describe( 'Batch Get user', function() {
+  describe( 'Batch get user', function() {
+    batch_get_user =[{
+      username        : 'batch_get_wayne1',
+      password        : '123456'
+    },{
+      username        : 'batch_get_wayne2',
+      password        : '123456'
+    },{
+      username        : 'batch_get_wayne3',
+      password        : '123456'
+    }];
+    var limit = 2;
+    before(function(done){
+      easemobSDK.user.create_batch(batch_get_user,token,function(err, res, body){
+        if(!err && res.statusCode==200){
+          done();
+        }
+      });
+    });
+    after(function(done){
+      async.eachSeries(batch_get_user, function iterator(user, callback){
+        easemobSDK.user.remove(user.username,token,function(err, res, body){
+          if(!err && res.statusCode==200){
+            callback(null);
+          }else {
+            callback(err || 'can not delete !');
+          }
+        });
+      },function(err){
+        done();
+      });
+    });
+    it( 'Should return OK', function( done ) {
+      easemobSDK.user.get_batch(limit ,token,function( err, res,body ){
+        if(!err && res.statusCode==200 && body.cursor){
+          easemobSDK.user.get_batch_page(limit,body.cursor ,token,function( err, res,body ){
+            should.not.exists( err );
+            res.statusCode.should.equal( 200 );
+            done();
+          });
+        }else{
+          console.log(err);
+          console.log(res.statusCode);
+          console.log(body.cursor);
+        }
+      });
+    });
+  });
+
+  describe( 'Batch get user with page', function() {
     batch_get_user =[{
       username        : 'get_wayne1',
       password        : '123456'
@@ -141,6 +190,7 @@ describe( 'User Test', function(){
       });
     });
   });
+
 
   describe( 'Reset user password', function() {
     var username    = 'password_wayne';
