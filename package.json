@@ -7,9 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "cd test && mocha . --timeout 10000",
-    "coverage": "nyc npm test && nyc report",
-    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
+    "test": "./node_modules/.bin/istanbul test ./node_modules/.bin/_mocha -- -R spec -t 5000"
   },
   "repository": {
     "type": "git",
@@ -27,6 +25,7 @@
   "devDependencies": {
     "async": "^1.5.0",
     "coveralls": "^2.11.4",
+    "istanbul": "^0.4.0",
     "mocha": "*",
     "mocha-lcov-reporter": "^1.0.0",
     "nyc": "^2.1.0",

@@ -2,7 +2,8 @@ language: node_js
 node_js:
   - "0.10"
 sudo: false
-after_script: npm run coveralls
+script: 'npm test --coverage'
+after_script: 'npm install coveralls@2 && cat ./coverage/lcov.info | coveralls'
 
 # Needed to run Karma with Firefox on Travis
 # http://karma-runner.github.io/0.13/plus/travis.html
