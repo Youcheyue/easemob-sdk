@@ -1,4 +1,20 @@
 # easemob-sdk
+
+[![build status][travis-image]][travis-url]
+[![Coverage Status][coveralls-image]][coveralls-url]
+[![gitter][gitter-image]][gitter-url]
+[![Dependency Status][DependencyStatus-image]][DependencyStatus-url]
+
+[travis-image]: https://travis-ci.org/leoliew/easemob-sdk.svg?branch=master
+[travis-url]: https://travis-ci.org/leoliew/easemob-sdk
+[coveralls-image]: https://coveralls.io/github/leoliew/easemob-sdk?branch=master
+[coveralls-url]: https://coveralls.io/r/leoliew/easemob-sdk
+[gitter-image]: https://badges.gitter.im/Join%20Chat.svg
+[gitter-url]: https://gitter.im/leoliew/easemob-sdk
+[DependencyStatus-image]: https://gemnasium.com/leoliew/easemob-sdk.svg
+[DependencyStatus-url]:https://gemnasium.com/leoliew/easemob-sdk
+
+
 easemob nodejs sdk
 
 
@@ -20,7 +36,7 @@ $ npm install
 Run em!
 
 ```shell
-$ make test
+$ npm test
 ```
 
 ## Usage

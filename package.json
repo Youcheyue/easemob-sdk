@@ -1,13 +1,15 @@
 {
   "name": "easemob-sdk",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "nodejs sdk for easemob",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "npm install mocha@2.2.5 should@6.0.3 && cd test && mocha ."
+    "test": "cd test && mocha . --timeout 10000",
+    "coverage": "nyc npm test && nyc report",
+    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -23,7 +25,11 @@
     "request": "2.65.0"
   },
   "devDependencies": {
-    "mocha": "*"
+    "mocha": "*",
+    "should": "*",
+    "async": "^1.5.0",
+    "nyc": "^2.1.0",
+    "coveralls": "^2.11.2"
   },
   "author": [
     "Leo Liu <zmliu0077@gmail.com>",

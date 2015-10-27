@@ -1,11 +1,6 @@
 module.exports = {
-    client_id 		: 'YXA6hIVhoHb_EeWcYR1pWLDUmQ',
-    client_secret 	: 'YXA6CkC7ljyuOkHSc9APL1bnmxXPVzA',
-    org_name        : 'wayneliang',
-    app_name        : 'test',
-    user : {
-        username        : 'wayne',
-        password        : '123456'
-    },
-
+  client_id 	   	: 'YXA6BS7QMHyaEeWfB22I0yCjKQ',
+  client_secret 	: 'YXA647IFiMltTFcnn0eHG0CcmO5rc8Y',
+  org_name        : 'youcheyue',
+  app_name        : 'leoo'
 }
