@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "cd test && mocha . --timeout 5000",
+    "test": "cd test && mocha . --timeout 10000",
     "coverage": "nyc npm test && nyc report",
     "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },

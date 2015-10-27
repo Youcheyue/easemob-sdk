@@ -1,5 +1,11 @@
 language: node_js
 node_js:
   - "0.10"
-script: 'npm test'
+sudo: false
 after_script: npm run coveralls
+
+# Needed to run Karma with Firefox on Travis
+# http://karma-runner.github.io/0.13/plus/travis.html
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
