@@ -24,7 +24,8 @@
   },
   "devDependencies": {
     "mocha": "*",
-    "should": "*"
+    "should": "*",
+    "async": "^1.5.0"
   },
   "author": [
     "Leo Liu <zmliu0077@gmail.com>",
