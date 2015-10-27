@@ -7,12 +7,13 @@
 
 [travis-image]: https://travis-ci.org/leoliew/easemob-sdk.svg?branch=master
 [travis-url]: https://travis-ci.org/leoliew/easemob-sdk
-[coveralls-image]: https://coveralls.io/repos/leoliew/TechChat/badge.svg?branch=master
+[coveralls-image]: https://coveralls.io/github/leoliew/easemob-sdk?branch=master
 [coveralls-url]: https://coveralls.io/r/leoliew/easemob-sdk
 [gitter-image]: https://badges.gitter.im/Join%20Chat.svg
-[gitter-url]: https://gitter.im/leoliew/TechChat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
-[DependencyStatus-image]: https://gemnasium.com/leoliew/TechChat.svg
-[DependencyStatus-url]:https://gemnasium.com/leoliew/TechChat
+[gitter-url]: https://gitter.im/leoliew/easemob-sdk
+[DependencyStatus-image]: https://gemnasium.com/leoliew/easemob-sdk.svg
+[DependencyStatus-url]:https://gemnasium.com/leoliew/easemob-sdk
+
 
 easemob nodejs sdk
 
