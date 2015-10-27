@@ -28,3 +28,4 @@ node_modules
 
 # ide temp file
 .idea/
+.nyc_output/
