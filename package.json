@@ -7,7 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "test": "cd test && mocha . --timeout 5000"
+    "test": "cd test && mocha . --timeout 5000",
+    "coverage": "nyc npm test && nyc report",
+    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -25,7 +27,9 @@
   "devDependencies": {
     "mocha": "*",
     "should": "*",
-    "async": "^1.5.0"
+    "async": "^1.5.0",
+    "istanbul": "^0.3.0",
+    "nyc": "^2.1.0"
   },
   "author": [
     "Leo Liu <zmliu0077@gmail.com>",
