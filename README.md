@@ -5,6 +5,9 @@
 [![gitter][gitter-image]][gitter-url]
 [![Dependency Status][DependencyStatus-image]][DependencyStatus-url]
 
+[![Coverage Status](https://coveralls.io/repos/leoliew/easemob-sdk/badge.svg?branch=master&service=github)](https://coveralls.io/github/leoliew/easemob-sdk?branch=master)
+
+
 [travis-image]: https://travis-ci.org/leoliew/easemob-sdk.svg?branch=master
 [travis-url]: https://travis-ci.org/leoliew/easemob-sdk
 [coveralls-image]: https://coveralls.io/github/leoliew/easemob-sdk?branch=master
