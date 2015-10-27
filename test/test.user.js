@@ -163,7 +163,7 @@ describe( 'User Test', function(){
 
   describe( 'Get user offline msg count', function() {
     it( 'Should return OK', function( done ) {
-      easemobSDK.user.get_offline_msg_count(testConfig.offline_username.username ,testConfig.TOKEN ,function( err, res,body ){
+      easemobSDK.user.get_offline_msg_count(testConfig.user.username ,testConfig.TOKEN ,function( err, res,body ){
 
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
@@ -178,7 +178,7 @@ describe( 'User Test', function(){
 /*
   describe( 'Get user offline msg status', function() {
     it( 'Should return OK', function( done ) {
-      easemobSDK.user.get_offline_msg_count(testConfig.offline_username.username,msg_id ,testConfig.TOKEN ,function( err, res,body ){
+      easemobSDK.user.get_offline_msg_status(testConfig.user.username,msg_id ,testConfig.TOKEN ,function( err, res,body ){
 
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
@@ -191,6 +191,51 @@ describe( 'User Test', function(){
 
   } );
   */
+
+  describe( 'Deactivate user', function() {
+    it( 'Should return OK', function( done ) {
+      easemobSDK.user.deactivate(testConfig.user.username ,testConfig.TOKEN ,function( err, res,body ){
+
+        should.not.exists( err );
+        res.statusCode.should.equal( 200 );
+
+        done();
+
+      });
+
+    } );
+
+  } );
+
+  describe( 'Activate user', function() {
+    it( 'Should return OK', function( done ) {
+      easemobSDK.user.activate(testConfig.user.username ,testConfig.TOKEN ,function( err, res,body ){
+
+        should.not.exists( err );
+        res.statusCode.should.equal( 200 );
+
+        done();
+
+      });
+
+    } );
+
+  } );
+
+  describe( 'Disconnect user', function() {
+    it( 'Should return OK', function( done ) {
+      easemobSDK.user.disconnect(testConfig.user.username ,testConfig.TOKEN ,function( err, res,body ){
+
+        should.not.exists( err );
+        res.statusCode.should.equal( 200 );
+
+        done();
+
+      });
+
+    } );
+
+  } );
 
   describe( 'Remote user', function() {
     it( 'Should return OK', function( done ) {
@@ -226,7 +271,7 @@ describe( 'User Test', function(){
     } );
 
   } );
-*/
 
+*/
 
 });
