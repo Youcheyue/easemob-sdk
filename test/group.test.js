@@ -3,7 +3,7 @@ var testConfig  = require( './config_friend' );
 var easemobSDK  = require( '../index' );
 var async = require('async');
 
-describe( 'group test', function(){
+describe.only( 'group test', function(){
   var token;
   before( function( done ){
     // Init the SDK before testing.
@@ -32,16 +32,16 @@ describe( 'group test', function(){
   after(function(done){
   	 easemobSDK.group.display_group(token,function( err, res,body ) {
   	 	if(!err && res.statusCode==200) {
-  	 		for(var i=0;i<res.body.data.length;i++){  
+  	 		for(var i=0;i<res.body.data.length;i++){
          easemobSDK.group.delete_group(res.body.data[i].groupid,token,function( err, res,body ) {
          	 if(!err && res.statusCode==200) {
                 done();
                  }
              });
-             } 
+             }
              }
              });
-}); 
+});
    it('add group should return OK', function( done ) {
         easemobSDK.group.add_group(groupinfo,token,function( err, res,body ){
         should.not.exists( err );
@@ -49,20 +49,20 @@ describe( 'group test', function(){
         //console.log(res.body.data.groupid);
         done();
       });
-    });    
-  });  
-  
+    });
+  });
+
    //删除一个群组
    describe( 'delete a group  for chat', function() {
     	var groupinfo={
-    "groupname":"testrestgrp22", 
-    "desc":"server create group", 
-    "public":true, 
+    "groupname":"testrestgrp22",
+    "desc":"server create group",
+    "public":true,
     "maxusers":300,
-    "approval":true, 
-    "owner":"limintest1", 
-    "members":["limintest2"] 
-}; 
+    "approval":true,
+    "owner":"limintest1",
+    "members":["limintest2"]
+};
 		before(function(done){
 		 easemobSDK.group.add_group(groupinfo,token,function( err, res,body ){
         if(!err && res.statusCode==200) {
@@ -78,20 +78,20 @@ describe( 'group test', function(){
         //console.log(res.body);
         done();
       });
-    });    
+    });
   });
- 
+
  //查询群组
   describe('display a grouplist for chat', function() {
   	var groupinfo={
     "groupname":"testrestgrp12",
-    "desc":"server create group", 
-    "public":true, 
-    "maxusers":300, 
-    "approval":true, 
-    "owner":"limintest1", 
-    "members":["limintest2"] 
-}; 
+    "desc":"server create group",
+    "public":true,
+    "maxusers":300,
+    "approval":true,
+    "owner":"limintest1",
+    "members":["limintest2"]
+};
 	before(function(done){
 		 easemobSDK.group.add_group(groupinfo,token,function( err, res,body ){
         if(!err && res.statusCode==200) {
@@ -102,16 +102,16 @@ describe( 'group test', function(){
   after(function(done){
   	 easemobSDK.group.display_group(token,function( err, res,body ) {
   	 	if(!err && res.statusCode==200) {
-  	 		for(var i=0;i<res.body.data.length;i++){  
+  	 		for(var i=0;i<res.body.data.length;i++){
          easemobSDK.group.delete_group(res.body.data[i].groupid,token,function( err, res,body ) {
          	 if(!err && res.statusCode==200) {
                 done();
                  }
              });
-             } 
+             }
              }
              });
-}); 
+});
   it('display group should return OK', function( done ) {
          easemobSDK.group.display_group(token,function( err, res,body ){
         should.not.exists( err );
@@ -119,42 +119,45 @@ describe( 'group test', function(){
         //console.log(res.body.data);
         done();
       });
-    });    
+    });
   });
-  
-  
+
+
   //分页查询群组
   describe('display a grouplist for many pages', function() {
     var groupinfo={
     "groupname":"testrestgrp112",
-    "desc":"server create group", 
-    "public":true, 
-    "maxusers":300, 
-    "approval":true, 
-    "owner":"limintest111", 
-    "members":["limintest2"] 
-}; 
+    "desc":"server create group",
+    "public":true,
+    "maxusers":300,
+    "approval":true,
+    "owner":"limintest111",
+    "members":["limintest2"]
+};
 	before(function(done){
 		 easemobSDK.group.add_group(groupinfo,token,function( err, res,body ){
         if(!err && res.statusCode==200) {
         		console.log(res.body.data);
         		done();
-      }
-      
+      }else{
+          console.log(err);
+          console.log(body);
+        }
+
       });
     });
   /*after(function(done){
   	 easemobSDK.group.display_group(token,function( err, res,body ) {
   	 	if(!err && res.statusCode==200) {
-  	 		for(var i=0;i<res.body.data.length;i++){  
+  	 		for(var i=0;i<res.body.data.length;i++){
          easemobSDK.group.delete_group(res.body.data[i].groupid,token,function( err, res,body ) {
          	 if(!err && res.statusCode==200) {
           				console.log(res.body.data);
           				done();
                  }
              });
-              
-             } 
+
+             }
              }
              });
 }); */
@@ -166,8 +169,8 @@ describe( 'group test', function(){
         console.log(res.body.data);
         done();
       });
-    });    
-  }); 
- 
-  
-});  
+    });
+  });
+
+
+});
