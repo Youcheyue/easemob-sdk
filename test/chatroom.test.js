@@ -6,7 +6,7 @@ var testConfig  = require( './config' );
 var easemobSDK 	= require( '../index' );
 var async = require('async');
 
-describe( 'Chatroom Test', function(){
+describe.only( 'Chatroom Test', function(){
   var token;
   before( function( done ){
     // Init the SDK before testing.
@@ -92,8 +92,17 @@ describe( 'Chatroom Test', function(){
     before(function(done){
       console.log('-------------');
       async.waterfall([
-        easemobSDK.user.create_batch(modify_chatroom_user,token,cb),
-        easemobSDK.chatroom.create(chatroom_data,token ,cb)
+        function(cb){
+          easemobSDK.user.create_batch(modify_chatroom_user,token,function(err,res,body){
+            cb(err);
+          })
+        },
+        function(cb){
+          easemobSDK.chatroom.create(chatroom_data,token ,function(err,res,body){
+            chatroom_id  = body['data']['id'];
+            cb(err);
+          })
+        }
       ],function(err,result){
         if(!err){
           done();
