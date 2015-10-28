@@ -6,7 +6,7 @@ var testConfig  = require( './config' );
 var easemobSDK 	= require( '../index' );
 var async = require('async');
 
-describe.only( 'Chatroom Test', function(){
+describe( 'Chatroom Test', function(){
   var token;
   before( function( done ){
     // Init the SDK before testing.
@@ -70,6 +70,69 @@ describe.only( 'Chatroom Test', function(){
     });
   });
 
+  describe.only( 'Get all chatroom', function() {
+    var get_all_chatroom_user =[{
+      username        : 'get_all_chatroom_wayne1',
+      password        : '123456'
+    },{
+      username        : 'get_all_chatroom_wayne2',
+      password        : '123456'
+    },{
+      username        : 'get_all_chatroom_wayne3',
+      password        : '123456'
+    }];
+    var get_all_chatroom_data = {
+      "name":"testchatroom", //聊天室名称, 此属性为必须的
+      "description":"server create chatroom", //聊天室描述, 此属性为必须的
+      "maxusers":300, //聊天室成员最大数(包括群主), 值为数值类型,默认值200,此属性为可选的
+      "owner":"modify_chatroom_wayne1", //聊天室的管理员, 此属性为必须的
+      "members":["modify_chatroom_wayne2","modify_chatroom_wayne3"] //聊天室成员,此属性为可选的,但是如果加了此项,数组元素至少一个（注：群主jma1不需要写入到members里面）
+    };
+    before(function(done){
+      async.waterfall([
+        function(cb){
+          easemobSDK.user.create_batch(get_all_chatroom_user,token,function(err,res,body){
+            cb(err);
+          })
+        },
+        function(cb){
+          easemobSDK.chatroom.create(get_all_chatroom_data,token ,function(err,res,body){
+            cb(err);
+          })
+        }
+      ],function(err,result){
+        if(!err){
+          done();
+        }else{
+          console.log(err);
+          console.log(result);
+        }
+      });
+    });
+    after(function(done){
+      async.eachSeries(get_all_chatroom_user, function iterator(user, callback){
+        easemobSDK.user.remove(user.username,token,function(err, res, body){
+          if(!err && res.statusCode==200){
+            callback(null);
+          }else {
+            callback(err || 'can not delete !');
+          }
+        });
+      },function(err){
+        done();
+      });
+    });
+
+    it( 'Should return OK', function( done ) {
+      easemobSDK.chatroom.get_all(token ,function( err, res,body ){
+        should.not.exists( err );
+        res.statusCode.should.equal( 200 );
+        console.log(body);
+        done();
+      });
+    });
+  });
+
   describe( 'Modify chatroom', function() {
     modify_chatroom_user =[{
       username        : 'modify_chatroom_wayne1',
@@ -90,7 +153,6 @@ describe.only( 'Chatroom Test', function(){
     };
     var chatroom_id;
     before(function(done){
-      console.log('-------------');
       async.waterfall([
         function(cb){
           easemobSDK.user.create_batch(modify_chatroom_user,token,function(err,res,body){
@@ -113,19 +175,19 @@ describe.only( 'Chatroom Test', function(){
       });
 
     });
-    //after(function(done){
-    //  async.eachSeries(create_chatroom_user, function iterator(user, callback){
-    //    easemobSDK.user.remove(user.username,token,function(err, res, body){
-    //      if(!err && res.statusCode==200){
-    //        callback(null);
-    //      }else {
-    //        callback(err || 'can not delete !');
-    //      }
-    //    });
-    //  },function(err){
-    //    done();
-    //  });
-    //});
+    after(function(done){
+      async.eachSeries(modify_chatroom_user, function iterator(user, callback){
+        easemobSDK.user.remove(user.username,token,function(err, res, body){
+          if(!err && res.statusCode==200){
+            callback(null);
+          }else {
+            callback(err || 'can not delete !');
+          }
+        });
+      },function(err){
+        done();
+      });
+    });
 
     it( 'Should return OK', function( done ) {
       var modify_chatroom_data = {
@@ -134,7 +196,6 @@ describe.only( 'Chatroom Test', function(){
         "maxusers":200, //聊天室成员最大数(包括群主), 值为数值类型
       }
       easemobSDK.chatroom.modify(modify_chatroom_data,chatroom_id ,token ,function( err, res,body ){
-        console.log(body);
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
         done();
