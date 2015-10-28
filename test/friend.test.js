@@ -1,13 +1,14 @@
-var should              = require( 'should' );
+var should = require( 'should' );
 var testConfig  = require( './config_friend' );
 var easemobSDK  = require( '../index' );
 var async = require('async');
 
 describe( 'friend test', function(){
   var token;
-  before( function( done ){
+  before(function(done){
     // Init the SDK before testing.
     easemobSDK.init(testConfig.org_name,testConfig.app_name,testConfig.client_id,testConfig.client_secret);
+    console.log('222222222222222222');
     easemobSDK.get_token(function(err,result){
       if(err){
         console.log(err);
@@ -20,6 +21,8 @@ describe( 'friend test', function(){
   });
   //增加好友
   describe( 'add user for friend', function() {
+    console.log('111111111111111111111');
+    console.log(token);
     batch_user =[{
       username        : 'liman',
       password        : '123456'
@@ -54,9 +57,9 @@ describe( 'friend test', function(){
         console.log(res.body.entities);
         done();
       });
-    });    
+    });
   });
- 
+
  //查询好友
   describe( "display user of friend", function() {
     batch_user =[{
@@ -97,7 +100,7 @@ describe( 'friend test', function(){
         console.log(res.body.data);
         done();
       });
-    }); 
+    });
 });
 
  //解除好友
@@ -139,7 +142,7 @@ describe( 'friend test', function(){
         res.statusCode.should.equal(200);
         done();
       });
-    }); 
+    });
 });
 
    //增加好友黑名单
@@ -177,9 +180,9 @@ describe( 'friend test', function(){
         res.statusCode.should.equal(200);
         done();
       });
-    }); 
+    });
 });
- 
+
   //查询黑名单
   describe( 'display user of blocklist', function() {
     batch_user =[{
@@ -219,9 +222,9 @@ describe( 'friend test', function(){
         res.statusCode.should.equal(200);
         done();
       });
-    }); 
+    });
 });
- 
+
    //移除黑名单
   describe( 'delete user of blocklist', function() {
     batch_user =[{
@@ -261,13 +264,6 @@ describe( 'friend test', function(){
         res.statusCode.should.equal(200);
         done();
       });
-    }); 
+    });
 });
- 
- 
- 
- 
- 
- 
-  
-});  
+});

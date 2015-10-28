@@ -28,3 +28,8 @@ node_modules
 
 # ide temp file
 .idea/
+
+
+# coverage file
+.nyc_output/
+

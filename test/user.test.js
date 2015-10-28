@@ -100,7 +100,7 @@ describe( 'User Test', function(){
   } );
 
 
-  describe( 'Batch get user', function() {
+  describe( 'Batch get user with page', function() {
     batch_get_user =[{
       username        : 'batch_get_wayne1',
       password        : '123456'
@@ -149,7 +149,7 @@ describe( 'User Test', function(){
     });
   });
 
-  describe( 'Batch get user with page', function() {
+  describe( 'Batch get user ', function() {
     batch_get_user =[{
       username        : 'get_wayne1',
       password        : '123456'
