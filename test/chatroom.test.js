@@ -6,7 +6,7 @@ var testConfig  = require( './config' );
 var easemobSDK 	= require( '../index' );
 var async = require('async');
 
-describe( 'Chatroom Test', function(){
+describe.only( 'Chatroom Test', function(){
   var token;
   before( function( done ){
     // Init the SDK before testing.
@@ -21,7 +21,7 @@ describe( 'Chatroom Test', function(){
       }
     });
   });
-
+  //创建聊天室
   describe( 'Create chatroom', function() {
     var create_chatroom_user =[{
       username        : 'create_chatroom_wayne1',
@@ -70,6 +70,7 @@ describe( 'Chatroom Test', function(){
     });
   });
 
+//修改聊天室信息
   describe( 'Modify chatroom', function() {
     var modify_chatroom_user =[{
       username        : 'modify_chatroom_wayne1',
@@ -148,6 +149,7 @@ describe( 'Chatroom Test', function(){
     });
   });
 
+  //删除聊天室
   describe( 'Remove chatroom', function() {
     var remove_chatroom_user =[{
       username        : 'remove_chatroom_wayne1',
@@ -221,6 +223,8 @@ describe( 'Chatroom Test', function(){
     });
   });
 
+
+  //获取app中所有的聊天室
   describe( 'Get all chatroom', function() {
     var get_all_chatroom_user =[{
       username        : 'get_all_chatroom_wayne1',
@@ -291,6 +295,7 @@ describe( 'Chatroom Test', function(){
     });
   });
 
+  //获取一个聊天室详情
   describe( 'Get chatroom', function() {
     var get_chatroom_user =[{
       username        : 'get_chatroom_wayne1',
@@ -365,6 +370,7 @@ describe( 'Chatroom Test', function(){
     });
   });
 
+  //获取用户加入的聊天室
   describe( 'Get user chatroom', function() {
     var get_user_chatroom_user =[{
       username        : 'get_user_chatroom_wayne1',
@@ -439,6 +445,7 @@ describe( 'Chatroom Test', function(){
     });
   });
 
+  //聊天室成员添加[单个]
   describe( 'Add member', function() {
     var add_chatroom_member_user =[{
       username        : 'add_chatroom_member_wayne1',
@@ -516,6 +523,8 @@ describe( 'Chatroom Test', function(){
     });
   });
 
+
+  //聊天室成员添加[批量]
   describe( 'Add member batch', function() {
     var add_chatroom_members_user =[{
       username        : 'add_chatroom_members_wayne1',
@@ -640,6 +649,7 @@ describe( 'Chatroom Test', function(){
     });
   });
 
+  //聊天室成员删除[单个]
   describe( 'Remove member', function() {
     var remove_chatroom_member_user =[{
       username        : 'remove_chatroom_member_wayne1',
@@ -717,6 +727,8 @@ describe( 'Chatroom Test', function(){
     });
   });
 
+
+  //聊天室成员删除[批量]
   describe( 'Remove member batch', function() {
     var remove_chatroom_members_user =[{
       username        : 'remove_chatroom_members_wayne1',
