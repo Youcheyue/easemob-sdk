@@ -3,7 +3,7 @@ var testConfig  = require( './config_friend' );
 var easemobSDK  = require( '../index' );
 var async = require('async');
 
-describe.only( 'group test', function(){
+describe( 'Group test', function(){
   var token;
   before( function( done ){
     // Init the SDK before testing.
@@ -19,7 +19,7 @@ describe.only( 'group test', function(){
     });
   });
   //增加群组
-  describe.skip( 'add a grouplist for chat', function() {
+  describe( 'add a grouplist for chat', function() {
   	var batch_user =[{
       username        : 'limintest111',
       password        : '123456'
@@ -36,69 +36,65 @@ describe.only( 'group test', function(){
     "owner":"limintest111", //群组的管理员, 此属性为必须的
     "members":["limintest2"] //群组成员,此属性为可选的,但是如果加了此项,数组元素至少一个（注：群主jma1不需要写入到members里面）
 };
-	before(function(done){
-		easemobSDK.user.remove_batch(10,token,function( err, res,body ) {
-			if(!err && res.statusCode==200)  {
-					easemobSDK.user.create_batch(batch_user,token, function( err, res,body ){
-        if(!err && res.statusCode==200) {
-     easemobSDK.group.add_group(groupinfo,token,function( err, res,body ){
-        if(!err && res.statusCode==200) {
-        		//console.log(res.body.data);
-        		done();
-      }else {
-      	console.log(err);
-      	console.log(body);
-      }
+		var groupids = [];
+    before(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries([1,2], function iterator(item, callback) {
+            easemobSDK.group.add_group(groupinfo, token, function (err, res, body) {
+              groupids.push(res.body.data.groupid);
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
       });
-      }
-      else {
-      	console.log(err);
-      	console.log(body);
-      }
-      });
-			}
-			});
     });
-  /*after(function(done){
-  	 easemobSDK.group.display_group(token,function( err, res,body ) {
-  	 	if(!err && res.statusCode==200) {
-  	 		for(var i=0;i<res.body.data.length;i++){
-         easemobSDK.group.delete_group(res.body.data[i].groupid,token,function( err, res,body ) {
-         	 if(!err && res.statusCode==200) {
-          				//console.log(res.body.data);
-          				easemobSDK.user.remove_batch(10,token,function( err, res,body ){
-                        if(!err && res.statusCode==200) {
-        										done();
-      }
-      else {
-      	console.log(err);
-      	console.log(body);
-      }
+    after(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries(groupids, function iterator(item, callback) {
+            easemobSDK.group.delete_group(groupids.pop(), token, function (err, res, body) {
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
       });
-         }
-               else {
-      	console.log(err);
-      	console.log(body);
-      }
-
-
-             });
-             }
-             }
-             });
-}); */
+    });
    it('add group should return OK', function( done ) {
         easemobSDK.group.add_group(groupinfo,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        //console.log(res.body.data.groupid);
+        console.log(res.body.data.groupid);
         done();
       });
     });
   });
 
    //删除一个群组
-   describe.skip( 'delete a group  for chat', function() {
+   describe( 'delete a group  for chat', function() {
    	var batch_user =[{
       username        : 'limintest111',
       password        : '123456'
@@ -115,42 +111,45 @@ describe.only( 'group test', function(){
     "owner":"limintest111",
     "members":["limintest2"]
 };
-	before(function(done){
-		easemobSDK.user.remove_batch(10,token,function( err, res,body ) {
-			if(!err && res.statusCode==200)  {
-					easemobSDK.user.create_batch(batch_user,token, function( err, res,body ){
-        if(!err && res.statusCode==200) {
-     easemobSDK.group.add_group(groupinfo,token,function( err, res,body ){
-        if(!err && res.statusCode==200) {
-        		console.log(res.body.data);
-        		groupid=res.body.data.groupid;
-        		done();
-      }else {
-      	console.log(err);
-      	console.log(body);
-      }
+	var groupids = [];
+	    before(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries([1], function iterator(item, callback) {
+            easemobSDK.group.add_group(groupinfo, token, function (err, res, body) {
+              groupids.push(res.body.data.groupid);
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
       });
-      }
-      else {
-      	console.log(err);
-      	console.log(body);
-      }
-      });
-			}
-			});
     });
    it('delete group should return OK', function( done ) {
-        easemobSDK.group.delete_group(groupid,token,function( err, res,body ){
+        easemobSDK.group.delete_group(groupids.pop(),token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        //console.log(res.body);
+        console.log(res.body);
         done();
       });
     });
   });
 
  //查询群组
-  describe.skip('display a grouplist for chat', function() {
+  describe('display a grouplist for chat', function() {
   		var batch_user =[{
       username        : 'limintest211',
       password        : '123456'
@@ -167,11 +166,8 @@ describe.only( 'group test', function(){
       "owner":"limintest211",
       "members":["limintest2"]
     };
-
-
     var groupids = [];
-
-    before(function(done) {
+    before(function (done) {
       async.waterfall([
         function (cb) {
           easemobSDK.user.remove_batch(10, token, function (err, res, body) {
@@ -184,7 +180,7 @@ describe.only( 'group test', function(){
           })
         },
         function (cb) {
-          async.eachSeries([1, 2, 3], function iterator(item, callback) {
+          async.eachSeries([1, 2, 3 ,4, 5, 6], function iterator(item, callback) {
             easemobSDK.group.add_group(groupinfo, token, function (err, res, body) {
               groupids.push(res.body.data.groupid);
               callback(err);
@@ -197,26 +193,37 @@ describe.only( 'group test', function(){
         done(err);
       });
     });
-
-
-
-
-
+    after(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries(groupids, function iterator(item, callback) {
+            easemobSDK.group.delete_group(groupids.pop(), token, function (err, res, body) {
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
   it('display group should return OK', function( done ) {
-    console.log(groupids);
-    var cursor;
     async.eachSeries(groupids,function iterator(group_id, callback) {
       easemobSDK.group.display_group(token,function( err, res,body ){
-        console.log(err);
-        console.log(body);
+        //console.log(body);
         should.not.exists( err );
         res.statusCode.should.equal(200);
-
         done();
       });
     });
     });
-  });
+  }); 
 
 
   //分页查询群组
@@ -265,35 +272,37 @@ describe.only( 'group test', function(){
         done(err);
       });
     });
-
-  after(function(done){
-  	 easemobSDK.group.display_group(token,function( err, res,body ) {
-  	 	if(!err && res.statusCode==200) {
-  	 		for(var i=0;i<res.body.data.length;i++){
-         easemobSDK.group.delete_group(res.body.data[i].groupid,token,function( err, res,body ) {
-         	 if(!err && res.statusCode==200) {
-          				easemobSDK.user.remove_batch(10,token,function( err, res,body ){
-                        if(!err && res.statusCode==200) {
-        done();
-      }
+    
+    after(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries(groupids, function iterator(item, callback) {
+            easemobSDK.group.delete_group(groupids.pop(), token, function (err, res, body) {
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
       });
-         }
-             });
-             }
-             }
-             });
-});
+    });
     it('display group many pages should return OK', function (done) {
       var limit = 2;
       var cursor;
-      console.log(groupids);
+      //console.log(groupids);
       console.log('============');
       async.eachSeries(groupids, function iterator(group_id, callback) {
-
         easemobSDK.group.display_page_group(limit, cursor, token, function (err, res, body) {
           should.not.exists(err);
           res.statusCode.should.equal(200);
-          console.log(res.body);
+          //console.log(res.body);
           cursor = res.body.cursor;
           callback(err);
         });
@@ -304,7 +313,7 @@ describe.only( 'group test', function(){
   });
 
   //修改群组信息
-  describe.skip('modify a groupinfo of group', function() {
+  describe('modify a groupinfo of group', function() {
   	var batch_user =[{
       username        : 'limintest111',
       password        : '123456'
@@ -321,52 +330,59 @@ describe.only( 'group test', function(){
     "owner":"limintest111",
     "members":["limintest2"]
 };
-	before(function(done){
-		easemobSDK.user.remove_batch(10,token,function( err, res,body ) {
-			if(!err && res.statusCode==200)  {
-					easemobSDK.user.create_batch(batch_user,token, function( err, res,body ){
-        if(!err && res.statusCode==200) {
-        		   easemobSDK.group.add_group(groupinfo,token,function( err, res,body ){
-        if(!err && res.statusCode==200) {
-        	groupid=res.body.data.groupid;
-        		done();
-      }else {
-      	console.log(err);
-      	console.log(body);
-      }
+	 var groupids = [];
+	before(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries([1], function iterator(item, callback) {
+            easemobSDK.group.add_group(groupinfo, token, function (err, res, body) {
+              groupids.push(res.body.data.groupid);
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
       });
-      }
-      else {
-      	console.log(err);
-      	console.log(body);
-      }
-      });
-			}
-			});
     });
-  /*after(function(done){
-  	 easemobSDK.group.display_group(token,function( err, res,body ) {
-  	 	if(!err && res.statusCode==200) {
-  	 		for(var i=0;i<res.body.data.length;i++){
-         easemobSDK.group.delete_group(res.body.data[i].groupid,token,function( err, res,body ) {
-         	 if(!err && res.statusCode==200) {
-          				easemobSDK.user.remove_batch(10,token,function( err, res,body ){
-                        if(!err && res.statusCode==200) {
-        done();
-      }
+     after(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries(groupids, function iterator(item, callback) {
+            easemobSDK.group.delete_group(groupids.pop(), token, function (err, res, body) {
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
       });
-         }
-             });
-             }
-             }
-             });
-}); */
+    });
   it('modify groupinfo should return OK', function( done ) {
   			var newgroupinfo={
   				"groupname":"liman",
   				"description":"update groupinfo",
   				"maxusers":400};
-        easemobSDK.group.modify_groupinfo(groupid,newgroupinfo,token,function( err, res,body ){
+        easemobSDK.group.modify_groupinfo(groupids[0],newgroupinfo,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
         console.log(res.body.data);
@@ -376,7 +392,7 @@ describe.only( 'group test', function(){
   });
 
   //获取群组成员信息
-  describe.skip('get a member of group', function() {
+  describe('get a member of group', function() {
   	var batch_user =[{
       username        : 'limintest011',
       password        : '123456'
@@ -392,59 +408,1197 @@ describe.only( 'group test', function(){
     "approval":true,
     "owner":"limintest011",
     "members":["limintest22"]
-};
-	before(function(done){
-		easemobSDK.user.remove_batch(10,token,function( err, res,body ) {
-			if(!err && res.statusCode==200)  {
-					easemobSDK.user.create_batch(batch_user,token, function( err, res,body ){
-        if(!err && res.statusCode==200) {
-        		   easemobSDK.group.add_group(groupinfo,token,function( err, res,body ){
-        if(!err && res.statusCode==200) {
-        	groupid=res.body.data.groupid;
-        		done();
-      }else {
-      	console.log(err);
-      	console.log(body);
-      }
+};  
+		var groupids = [];
+		before(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries([1], function iterator(item, callback) {
+            easemobSDK.group.add_group(groupinfo, token, function (err, res, body) {
+              groupids.push(res.body.data.groupid);
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
       });
-      }
-      else {
-      	console.log(err);
-      	console.log(body);
-      }
-      });
-			}
-			});
     });
-  after(function(done){
-  	 easemobSDK.group.display_group(token,function( err, res,body ) {
-  	 	if(!err && res.statusCode==200) {
-  	 		for(var i=0;i<res.body.data.length;i++){
-         easemobSDK.group.delete_group(res.body.data[i].groupid,token,function( err, res,body ) {
-         	 if(!err && res.statusCode==200) {
-          				easemobSDK.user.remove_batch(10,token,function( err, res,body ){
-                        if(!err && res.statusCode==200) {
-        done();
-      }
+     after(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries(groupids, function iterator(item, callback) {
+            easemobSDK.group.delete_group(groupids.pop(), token, function (err, res, body) {
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
       });
-         }
-             });
-             }
-             }
-             });
-});
+    });
   it('get member of group should return OK', function( done ) {
-  			console.log(groupid);
-        easemobSDK.group.get_member_group(groupid,token,function( err, res,body ){
+  	console.log(groupids);
+    async.eachSeries(groupids,function iterator(group_id, callback) {
+      easemobSDK.group.get_member_group(groupids[0],token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
         console.log(res.body.data);
         done();
       });
     });
+    
+    
+  });  
+
+  });  
+
+  //群组成员加人
+  describe.skip('add a user into group', function() {
+  	var batch_user =[{
+      username        : 'limintest011',
+      password        : '123456'
+    },{
+      username        : 'limintest22',
+      password        : '123456'
+    },{
+      username        : 'limintest333',
+      password        : '123456'
+    }
+    ];
+    var groupinfo={
+    "groupname":"testrestgrp1212",
+    "desc":"server create group",
+    "public":true,
+    "maxusers":300,
+    "approval":true,
+    "owner":"limintest011",
+    "members":["limintest22"]
+};  
+		var groupids = [];
+		before(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries([1], function iterator(item, callback) {
+            easemobSDK.group.add_group(groupinfo, token, function (err, res, body) {
+              groupids.push(res.body.data.groupid);
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+     after(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries(groupids, function iterator(item, callback) {
+            easemobSDK.group.delete_group(groupids.pop(), token, function (err, res, body) {
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+  it('add a user into group should return OK', function( done ) {
+    async.eachSeries(groupids,function iterator(group_id, callback) {
+      easemobSDK.group.add_user_into_group(groupids[0], batch_user[2].username ,token,function( err, res,body ){
+        should.not.exists( err );
+        res.statusCode.should.equal(200);
+        console.log(res.body);
+        done();
+      });
+    });
+    
+    
+  });  
+
+  });  
+
+  //群组成员减人
+  describe('delete a user from group', function() {
+  	var batch_user =[{
+      username        : 'limintest011',
+      password        : '123456'
+    },{
+      username        : 'limintest22',
+      password        : '123456'
+    },{
+      username        : 'limintest333',
+      password        : '123456'
+    }
+    ];
+    var groupinfo={
+    "groupname":"testrestgrp1212",
+    "desc":"server create group",
+    "public":true,
+    "maxusers":300,
+    "approval":true,
+    "owner":"limintest011",
+    "members":["limintest22","limintest333"]
+};  
+		var groupids = [];
+		before(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries([1], function iterator(item, callback) {
+            easemobSDK.group.add_group(groupinfo, token, function (err, res, body) {
+              groupids.push(res.body.data.groupid);
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+     after(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries(groupids, function iterator(item, callback) {
+            easemobSDK.group.delete_group(groupids.pop(), token, function (err, res, body) {
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+  it('delete a user from group should return OK', function( done ) {
+    async.eachSeries(groupids,function iterator(group_id, callback) {
+      easemobSDK.group.delete_user_from_group(groupids[0], batch_user[1].username ,token,function( err, res,body ){
+        should.not.exists( err );
+        res.statusCode.should.equal(200);
+        console.log(res.body);
+        done();
+      });
+    });
+    
+    
+  });  
+
+  });  
+  
+  
+  //群组增加多个用户
+  describe('add many users into group', function() {
+  	var batch_user =[{
+      username        : 'limintest011',
+      password        : '123456'
+    },{
+      username        : 'limintest22',
+      password        : '123456'
+    },{
+      username        : 'limintest333',
+      password        : '123456'
+    },
+    {
+      username        : 'limintest444',
+      password        : '123456'
+    },
+    {
+      username        : 'limintest555',
+      password        : '123456'
+    }
+    ];
+    var groupinfo={
+    "groupname":"testrestgrp1212",
+    "desc":"server create group",
+    "public":true,
+    "maxusers":300,
+    "approval":true,
+    "owner":"limintest011",
+    "members":["limintest22","limintest333"]
+};  
+		var groupids = [];
+		var users=[];
+  	for (var i=3;i<batch_user.length;i++) {
+  		 users.push(batch_user[i].username);
+  	}
+		before(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries([1], function iterator(item, callback) {
+            easemobSDK.group.add_group(groupinfo, token, function (err, res, body) {
+              groupids.push(res.body.data.groupid);
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+     after(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries(groupids, function iterator(item, callback) {
+            easemobSDK.group.delete_group(groupids.pop(), token, function (err, res, body) {
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+  it('add many users into group should return OK', function( done ) {
+  	console.log(users);
+    async.eachSeries(groupids,function iterator(group_id, callback) {
+      easemobSDK.group.add_manyuser_into_group(groupids[0], users ,token,function( err, res,body ){
+        should.not.exists( err );
+        res.statusCode.should.equal(200);
+        console.log(res.body);
+        done();
+      });
+    });
+    
+    
+  });  
+
+  }); 
+  
+  //群组删除多个用户
+  describe('delete many users from group', function() {
+  	var batch_user =[{
+      username        : 'limintest011',
+      password        : '123456'
+    },{
+      username        : 'limintest22',
+      password        : '123456'
+    },{
+      username        : 'limintest333',
+      password        : '123456'
+    },
+    {
+      username        : 'limintest444',
+      password        : '123456'
+    },
+    {
+      username        : 'limintest555',
+      password        : '123456'
+    }
+    ];
+    var groupinfo={
+    "groupname":"testrestgrp1212",
+    "desc":"server create group",
+    "public":true,
+    "maxusers":300,
+    "approval":true,
+    "owner":"limintest011",
+    "members":["limintest22","limintest333","limintest444","limintest555"]
+};  
+		var groupids = [];
+		var users=[];
+  	for (var i=2;i<batch_user.length;i++) {
+  		 users.push(batch_user[i].username);
+  	}
+		before(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries([1], function iterator(item, callback) {
+            easemobSDK.group.add_group(groupinfo, token, function (err, res, body) {
+              groupids.push(res.body.data.groupid);
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+     after(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries(groupids, function iterator(item, callback) {
+            easemobSDK.group.delete_group(groupids.pop(), token, function (err, res, body) {
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+  it('delete many users from group should return OK', function( done ) {
+  	console.log(users);
+    //async.eachSeries(groupids,function iterator(group_id, callback) {
+      easemobSDK.group.delete_manyuser_from_group(groupids[0], users ,token,function( err, res,body ){
+        should.not.exists( err );
+        res.statusCode.should.equal(200);
+        console.log(res.body);
+        done();
+      });
+    //});
+    
+    
+  });  
+
+  });  
+  
+ //获取一个用户参与的所有群组
+  describe('get user of group', function() {
+  	var batch_user =[{
+      username        : 'limintest011',
+      password        : '123456'
+    },{
+      username        : 'limintest22',
+      password        : '123456'
+    },{
+      username        : 'limintest333',
+      password        : '123456'
+    },
+    {
+      username        : 'limintest444',
+      password        : '123456'
+    },
+    {
+      username        : 'limintest555',
+      password        : '123456'
+    }
+    ];
+    var groupinfo={
+    "groupname":"testrestgrp1212",
+    "desc":"server create group",
+    "public":true,
+    "maxusers":300,
+    "approval":true,
+    "owner":"limintest011",
+    "members":["limintest22","limintest333","limintest444","limintest555"]
+};  
+		var groupids = [];
+		var users=[];
+  	for (var i=2;i<batch_user.length;i++) {
+  		 users.push(batch_user[i].username);
+  	}
+		before(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries([1,2], function iterator(item, callback) {
+            easemobSDK.group.add_group(groupinfo, token, function (err, res, body) {
+              groupids.push(res.body.data.groupid);
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+     after(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries(groupids, function iterator(item, callback) {
+            easemobSDK.group.delete_group(groupids.pop(), token, function (err, res, body) {
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+  it('get user of group should return OK', function( done ) {
+  	console.log(users);
+    async.eachSeries(users,function iterator(group_id, callback) {
+      easemobSDK.group.get_user_of_group(users.pop() ,token,function( err, res,body ){
+        should.not.exists( err );
+        res.statusCode.should.equal(200);
+        console.log(res.body);
+        done();
+      });
+    });
+    
+    
+  });  
+
+  }); 
+  
+   
+ //群组转让
+  describe('modify owner of group', function() {
+  	var batch_user =[{
+      username        : 'limintest011',
+      password        : '123456'
+    },{
+      username        : 'limintest22',
+      password        : '123456'
+    },{
+      username        : 'limintest333',
+      password        : '123456'
+    },
+    {
+      username        : 'limintest444',
+      password        : '123456'
+    },
+    {
+      username        : 'limintest555',
+      password        : '123456'
+    }
+    ];
+    var groupinfo={
+    "groupname":"testrestgrp1212",
+    "desc":"server create group",
+    "public":true,
+    "maxusers":300,
+    "approval":true,
+    "owner":"limintest011",
+    "members":["limintest22","limintest333","limintest444","limintest555"]
+};  
+		var groupids = [];
+		var users=[];
+  	for (var i=0;i<batch_user.length;i++) {
+  		 users.push(batch_user[i].username);
+  	}
+		before(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries([1], function iterator(item, callback) {
+            easemobSDK.group.add_group(groupinfo, token, function (err, res, body) {
+              groupids.push(res.body.data.groupid);
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+     after(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries(groupids, function iterator(item, callback) {
+            easemobSDK.group.delete_group(groupids.pop(), token, function (err, res, body) {
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+  it('modify owner of group should return OK', function( done ) {
+  	console.log(users);
+    //async.eachSeries([1],function iterator(group_id, callback) {
+      easemobSDK.group.modify_owner_of_group(groupids[0],users[2],token,function( err, res,body ){
+        should.not.exists( err );
+        res.statusCode.should.equal(200);
+        console.log(res.body);
+        done();
+      });
+    //});
+    
+    
+  });  
+
+  }); 
+  
+ //群组黑名单个添加
+  describe('add blacklist info group', function() {
+  	var batch_user =[{
+      username        : 'limintest011',
+      password        : '123456'
+    },{
+      username        : 'limintest22',
+      password        : '123456'
+    },{
+      username        : 'limintest333',
+      password        : '123456'
+    },
+    {
+      username        : 'limintest444',
+      password        : '123456'
+    },
+    {
+      username        : 'limintest555',
+      password        : '123456'
+    }
+    ];
+    var groupinfo={
+    "groupname":"testrestgrp1212",
+    "desc":"server create group",
+    "public":true,
+    "maxusers":300,
+    "approval":true,
+    "owner":"limintest011",
+    "members":["limintest22","limintest333"]
+};  
+		var groupids = [];
+		var users=[];
+  	for (var i=0;i<batch_user.length;i++) {
+  		 users.push(batch_user[i].username);
+  	}
+		before(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries([1], function iterator(item, callback) {
+            easemobSDK.group.add_group(groupinfo, token, function (err, res, body) {
+              groupids.push(res.body.data.groupid);
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+     after(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries(groupids, function iterator(item, callback) {
+            easemobSDK.group.delete_group(groupids.pop(), token, function (err, res, body) {
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+  it('add blacklist info group should return OK', function( done ) {
+    //async.eachSeries([1],function iterator(group_id, callback) {
+      easemobSDK.group.add_blacklist_of_group(groupids[0],users[3],token,function( err, res,body ){
+        should.not.exists( err );
+        res.statusCode.should.equal(200);
+        console.log(res.body);
+        done();
+      });
+    //});
+    
+    
+  });  
+
   });
 
+ //群组黑名批量添加
+  describe('add many blacklist info group', function() {
+  	var batch_user =[{
+      username        : 'limintest011',
+      password        : '123456'
+    },{
+      username        : 'limintest22',
+      password        : '123456'
+    },{
+      username        : 'limintest333',
+      password        : '123456'
+    },
+    {
+      username        : 'limintest444',
+      password        : '123456'
+    },
+    {
+      username        : 'limintest555',
+      password        : '123456'
+    }
+    ];
+    var groupinfo={
+    "groupname":"testrestgrp1212",
+    "desc":"server create group",
+    "public":true,
+    "maxusers":300,
+    "approval":true,
+    "owner":"limintest011",
+    "members":["limintest22","limintest333"]
+};  
+		var groupids = [];
+		var users=[];
+  	for (var i=3;i<batch_user.length;i++) {
+  		 users.push(batch_user[i].username);
+  	}
+		before(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries([1], function iterator(item, callback) {
+            easemobSDK.group.add_group(groupinfo, token, function (err, res, body) {
+              groupids.push(res.body.data.groupid);
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+     after(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries(groupids, function iterator(item, callback) {
+            easemobSDK.group.delete_group(groupids.pop(), token, function (err, res, body) {
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+  it('add many blacklist info group should return OK', function( done ) {
+    //async.eachSeries([1],function iterator(group_id, callback) {
+      easemobSDK.group.add_many_blacklist_of_group(groupids[0],users,token,function( err, res,body ){
+        should.not.exists( err );
+        res.statusCode.should.equal(200);
+        console.log(res.body);
+        done();
+      });
+    //});
+    
+    
+  });  
 
+  });
+
+//查询群的黑名单
+  describe('display a blacklist of group', function() {
+  	var batch_user =[{
+      username        : 'limintest011',
+      password        : '123456'
+    },{
+      username        : 'limintest22',
+      password        : '123456'
+    },{
+      username        : 'limintest333',
+      password        : '123456'
+    },
+    {
+      username        : 'limintest444',
+      password        : '123456'
+    },
+    {
+      username        : 'limintest555',
+      password        : '123456'
+    }
+    ];
+    var groupinfo={
+    "groupname":"testrestgrp1212",
+    "desc":"server create group",
+    "public":true,
+    "maxusers":300,
+    "approval":true,
+    "owner":"limintest011",
+    "members":["limintest22","limintest333"]
+};  
+		var groupids = [];
+		var users=[];
+  	for (var i=3;i<batch_user.length;i++) {
+  		 users.push(batch_user[i].username);
+  	}
+		before(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries([1], function iterator(item, callback) {
+            easemobSDK.group.add_group(groupinfo, token, function (err, res, body) {
+              groupids.push(res.body.data.groupid);
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        },
+         function (cb) {
+           easemobSDK.group.add_many_blacklist_of_group(groupids[0],users,token,function( err, res,body ) {
+            cb(err);
+          })
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+     after(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries(groupids, function iterator(item, callback) {
+            easemobSDK.group.delete_group(groupids.pop(), token, function (err, res, body) {
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+  it('display a blacklist of group should return OK', function( done ) {
+    //async.eachSeries([1],function iterator(group_id, callback) {
+      easemobSDK.group.display_blacklist_of_group(groupids[0],token,function( err, res,body ){
+        should.not.exists( err );
+        res.statusCode.should.equal(200);
+        console.log(res.body);
+        done();
+      });
+    //});
+  });  
+
+  });
+  
+  //黑名单单个删除
+  describe('delete a blacklist of group', function() {
+  	var batch_user =[{
+      username        : 'limintest011',
+      password        : '123456'
+    },{
+      username        : 'limintest22',
+      password        : '123456'
+    },{
+      username        : 'limintest333',
+      password        : '123456'
+    },
+    {
+      username        : 'limintest444',
+      password        : '123456'
+    },
+    {
+      username        : 'limintest555',
+      password        : '123456'
+    }
+    ];
+    var groupinfo={
+    "groupname":"testrestgrp1212",
+    "desc":"server create group",
+    "public":true,
+    "maxusers":300,
+    "approval":true,
+    "owner":"limintest011",
+    "members":["limintest22","limintest333"]
+};  
+		var groupids = [];
+		var users=[];
+  	for (var i=3;i<batch_user.length;i++) {
+  		 users.push(batch_user[i].username);
+  	}
+		before(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries([1], function iterator(item, callback) {
+            easemobSDK.group.add_group(groupinfo, token, function (err, res, body) {
+              groupids.push(res.body.data.groupid);
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        },
+         function (cb) {
+           easemobSDK.group.add_many_blacklist_of_group(groupids[0],users,token,function( err, res,body ) {
+            cb(err);
+          })
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+     after(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries(groupids, function iterator(item, callback) {
+            easemobSDK.group.delete_group(groupids.pop(), token, function (err, res, body) {
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+  it('delete a blacklist of group should return OK', function( done ) {
+    //async.eachSeries([1],function iterator(group_id, callback) {
+      easemobSDK.group.delete_blacklist_of_group(groupids[0],users[0],token,function( err, res,body ){
+        should.not.exists( err );
+        res.statusCode.should.equal(200);
+        console.log(res.body);
+        done();
+      });
+    //});
+  });  
+
+  });
+  
+  //黑名单批量删除
+  describe('delete many blacklists of group', function() {
+  	var batch_user =[{
+      username        : 'limintest011',
+      password        : '123456'
+    },{
+      username        : 'limintest22',
+      password        : '123456'
+    },{
+      username        : 'limintest333',
+      password        : '123456'
+    },
+    {
+      username        : 'limintest444',
+      password        : '123456'
+    },
+    {
+      username        : 'limintest555',
+      password        : '123456'
+    }
+    ];
+    var groupinfo={
+    "groupname":"testrestgrp1212",
+    "desc":"server create group",
+    "public":true,
+    "maxusers":300,
+    "approval":true,
+    "owner":"limintest011",
+    "members":["limintest22","limintest333"]
+};  
+		var groupids = [];
+		var users=[];
+  	for (var i=3;i<batch_user.length;i++) {
+  		 users.push(batch_user[i].username);
+  	}
+		before(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries([1], function iterator(item, callback) {
+            easemobSDK.group.add_group(groupinfo, token, function (err, res, body) {
+              groupids.push(res.body.data.groupid);
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        },
+         function (cb) {
+           easemobSDK.group.add_many_blacklist_of_group(groupids[0],users,token,function( err, res,body ) {
+            cb(err);
+          })
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+     after(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries(groupids, function iterator(item, callback) {
+            easemobSDK.group.delete_group(groupids.pop(), token, function (err, res, body) {
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+  it('delete many blacklists of group should return OK', function( done ) {
+    //async.eachSeries([1],function iterator(group_id, callback) {
+      easemobSDK.group.delete_many_blacklist_of_group(groupids[0],users,token,function( err, res,body ){
+        should.not.exists( err );
+        res.statusCode.should.equal(200);
+        console.log(res.body);
+        done();
+      });
+    //});
+  });  
+
+  });
+  
+  
+  
+  
+  
+//获取一个或者多个群组的详情
+ describe('display a group detail', function() {
+    var batch_user = [{
+      username: 'limintest111',
+      password: '123456'
+    }, {
+      username: 'limintest2',
+      password: '123456'
+    }];
+    var groupinfo = {
+      "groupname": "testrestgrp112",
+      "desc": "server create group",
+      "public": true,
+      "maxusers": 300,
+      "approval": true,
+      "owner": "limintest111",
+      "members": ["limintest2"]
+    };
+    var groupids = [];
+
+    before(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries([1, 2], function iterator(item, callback) {
+            easemobSDK.group.add_group(groupinfo, token, function (err, res, body) {
+              groupids.push(res.body.data.groupid);
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+    
+    after(function (done) {
+      async.waterfall([
+        function (cb) {
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            cb(err);
+          })
+        },
+        function (cb) {
+          async.eachSeries(groupids, function iterator(item, callback) {
+            easemobSDK.group.delete_group(groupids.pop(), token, function (err, res, body) {
+              callback(err);
+            })
+          }, function (err) {
+            cb(err);
+          });
+        }
+      ], function (err, result) {
+        done(err);
+      });
+    });
+    it('display group detail should return OK', function (done) {
+      easemobSDK.group.display_group_detail(groupids,token,function( err, res,body ){
+        should.not.exists( err );
+        res.statusCode.should.equal(200);
+        console.log(res.body);
+        done();
+      });
+    });
+  });
 
 
 
