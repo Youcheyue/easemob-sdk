@@ -109,7 +109,7 @@ describe( 'Chatroom Test', function(){
               cb(null);
             }else{
               cb(body);
-            };
+            }
           })
         }
       ],function(err,result){
@@ -135,13 +135,13 @@ describe( 'Chatroom Test', function(){
       var modify_chatroom_data = {
         "name":"test wayne chatroom", //聊天室名称
         "description":"update chatroominfo", //聊天室描述
-        "maxusers":200, //聊天室成员最大数(包括群主), 值为数值类型
-      }
+        "maxusers":200 //聊天室成员最大数(包括群主), 值为数值类型
+      };
       easemobSDK.chatroom.modify(modify_chatroom_data,chatroom_id ,token ,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
         _.each(body.data,function(data){
-          data.should.be.be.true;
+          data.should.be.true;
         });
         done(err);
       });
@@ -621,7 +621,7 @@ describe( 'Chatroom Test', function(){
   });
 
   //聊天室成员删除[单个]
-  describe.only( 'Remove member', function() {
+  describe( 'Remove member', function() {
     var remove_chatroom_member_user =[{
       username        : 'remove_chatroom_member_wayne1',
       password        : '123456'
