@@ -40,5 +40,17 @@ describe.only( 'File Test', function(){
     });
   });
 
+  describe( 'Download file', function() {
+    it( 'Should return OK', function( done ) {
+      //var file = fs.readFileSync(path.join(__dirname,'raindrop.jpg'),{encoding:'utf8',flag:'r'});
+      var file = __dirname + '/raindrop-1.jpg' ;
+      console.log(file);
+      var secret = '-kJnmn4fEeWw-odpRzHuzzfvtQei6mjsfhQiNIZtNRX3MMmj';
+      var uuid = 'fa426790-7e1f-11e5-921a-fb47743e31a1';
+      easemobSDK.file.download(file,secret,uuid,token );
+
+    });
+  });
+
 
 });
