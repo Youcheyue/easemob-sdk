@@ -5,8 +5,9 @@ var should 		= require( 'should' );
 var testConfig  = require( './config' );
 var easemobSDK 	= require( '../index' );
 var async = require('async');
+var _ = require('underscore');
 
-describe( 'Chatroom Test', function(){
+describe.only( 'Chatroom Test', function(){
   var token;
   before( function( done ){
     // Init the SDK before testing.
@@ -606,7 +607,7 @@ describe( 'Chatroom Test', function(){
               }
             });
           },function(err){
-            cb(null);
+            cb(err);
           });
         },function(cb){
           async.eachSeries(add_user, function iterator(user, callback){
@@ -618,7 +619,7 @@ describe( 'Chatroom Test', function(){
               }
             });
           },function(err){
-            cb(null);
+            cb(err);
           });
         }
       ],function(err,result){
@@ -631,20 +632,28 @@ describe( 'Chatroom Test', function(){
       add_usernames.usernames = new Array();
       async.waterfall([
         function(cb){
-          async.eachSeries(add_user, function iterator(user, callback){
-            add_usernames.usernames.push(user.username);
-            callback(null);
-          },function(err){
+          //async.eachSeries(add_user, function iterator(user, callback){
+          //
+          //  callback(null);
+
+
+            _.each(add_user,function(user){
+              add_usernames.usernames.push(user.username);
+            });
             cb(null);
-          });
+
+          //},function(err){
+          //  cb(err);
+          //});
         },function(cb){
           easemobSDK.chatroom.add_member_batch(add_usernames,chatroom_id ,token ,function( err, res,body ){
             should.not.exists( err );
             res.statusCode.should.equal( 200 );
-            done(err);
+           cb(err,body);
           });
         }
       ],function(err,result){
+        done(err);
       });
     });
   });
