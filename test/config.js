@@ -1,6 +1,6 @@
 module.exports = {
-  client_id 	   	: 'YXA6BS7QMHyaEeWfB22I0yCjKQ',
-  client_secret 	: 'YXA647IFiMltTFcnn0eHG0CcmO5rc8Y',
-  org_name        : 'youcheyue',
-  app_name        : 'leoo'
+  client_id 	   	: 'YXA6MlpEAHu9EeWXHj2sGRltOg',
+  client_secret 	: 'YXA6ZlLtpZwMg-EES5tzbo37dCIpJbc',
+  org_name        : 'wayneliang',
+  app_name        : 'waynetest'
 }
