@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "./node_modules/.bin/istanbul test ./node_modules/.bin/_mocha -- -R spec -t 10000"
+    "test": "./node_modules/.bin/istanbul test ./node_modules/.bin/_mocha -- -R spec -t 20000"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,8 @@
     "easemob"
   ],
   "dependencies": {
-    "request": "2.65.0"
+    "request": "2.65.0",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "async": "^1.5.0",
