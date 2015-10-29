@@ -5,6 +5,7 @@ var should 		= require( 'should' );
 var testConfig  = require( './config' );
 var easemobSDK 	= require( '../index' );
 var async = require('async');
+var _ = require('underscore');
 
 describe( 'Chatroom Test', function(){
   var token;
@@ -108,16 +109,11 @@ describe( 'Chatroom Test', function(){
               cb(null);
             }else{
               cb(body);
-            };
+            }
           })
         }
       ],function(err,result){
-        if(!err){
           done(err);
-        }else{
-          console.log(err);
-          console.log(result);
-        }
       });
 
     });
@@ -139,11 +135,14 @@ describe( 'Chatroom Test', function(){
       var modify_chatroom_data = {
         "name":"test wayne chatroom", //聊天室名称
         "description":"update chatroominfo", //聊天室描述
-        "maxusers":200, //聊天室成员最大数(包括群主), 值为数值类型
-      }
+        "maxusers":200 //聊天室成员最大数(包括群主), 值为数值类型
+      };
       easemobSDK.chatroom.modify(modify_chatroom_data,chatroom_id ,token ,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
+        _.each(body.data,function(data){
+          data.should.be.true;
+        });
         done(err);
       });
     });
@@ -191,12 +190,7 @@ describe( 'Chatroom Test', function(){
           })
         }
       ],function(err,result){
-        if(!err){
           done(err);
-        }else{
-          console.log(err);
-          console.log(result);
-        }
       });
 
     });
@@ -218,6 +212,8 @@ describe( 'Chatroom Test', function(){
       easemobSDK.chatroom.remove(chatroom_id ,token ,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
+        body.data.id.should.equal( chatroom_id );
+        body.data.success.should.be.true;
         done(err);
       });
     });
@@ -243,6 +239,7 @@ describe( 'Chatroom Test', function(){
       "owner":"get_all_chatroom_wayne1", //聊天室的管理员, 此属性为必须的
       "members":["get_all_chatroom_wayne2","get_all_chatroom_wayne3"] //聊天室成员,此属性为可选的,但是如果加了此项,数组元素至少一个（注：群主jma1不需要写入到members里面）
     };
+    var chatroom_id;
     before(function(done){
       async.waterfall([
         function(cb){
@@ -257,6 +254,7 @@ describe( 'Chatroom Test', function(){
         function(cb){
           easemobSDK.chatroom.create(get_all_chatroom_data,token ,function(err,res,body){
             if(!err && res.statusCode==200){
+              chatroom_id  = body['data']['id'];
               cb(null);
             }else{
               cb(body);
@@ -264,12 +262,7 @@ describe( 'Chatroom Test', function(){
           })
         }
       ],function(err,result){
-        if(!err){
           done(err);
-        }else{
-          console.log(err);
-          console.log(result);
-        }
       });
     });
     after(function(done){
@@ -290,6 +283,9 @@ describe( 'Chatroom Test', function(){
       easemobSDK.chatroom.get_all(token ,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
+        body.data[0].id.should.equal(chatroom_id);
+        body.data[0].name.should.equal(get_all_chatroom_data.name);
+        body.data[0].owner.should.equal(get_all_chatroom_data.owner);
         done(err);
       });
     });
@@ -337,12 +333,7 @@ describe( 'Chatroom Test', function(){
           })
         }
       ],function(err,result){
-        if(!err){
           done(err);
-        }else{
-          console.log(err);
-          console.log(result);
-        }
       });
 
     });
@@ -365,6 +356,7 @@ describe( 'Chatroom Test', function(){
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
         body.data[0].affiliations[0].owner.should.equal(get_chatroom_data.owner);
+        console.log(body);
         done(err);
       });
     });
@@ -412,12 +404,7 @@ describe( 'Chatroom Test', function(){
           })
         }
       ],function(err,result){
-        if(!err){
           done(err);
-        }else{
-          console.log(err);
-          console.log(result);
-        }
       });
 
     });
@@ -490,12 +477,7 @@ describe( 'Chatroom Test', function(){
           })
         }
       ],function(err,result){
-        if(!err){
           done(err);
-        }else{
-          console.log(err);
-          console.log(result);
-        }
       });
 
     });
@@ -518,6 +500,7 @@ describe( 'Chatroom Test', function(){
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
         body.data.user.should.equal(add_chatroom_member_user[3].username);
+        body.data.id.should.equal(chatroom_id);
         done(err);
       });
     });
@@ -585,43 +568,21 @@ describe( 'Chatroom Test', function(){
           })
         }
       ],function(err,result){
-        if(!err){
           done(err);
-        }else{
-          console.log(err);
-          console.log(result);
-        }
       });
 
     });
     after(function(done){
-      async.waterfall([
-        function(cb){
-          async.eachSeries(add_chatroom_members_user, function iterator(user, callback){
-            easemobSDK.user.remove(user.username,token,function(err, res, body){
-              if(!err && res.statusCode==200){
-                callback(null);
-              }else {
-                callback(err || 'can not delete !');
-              }
-            });
-          },function(err){
-            cb(null);
-          });
-        },function(cb){
-          async.eachSeries(add_user, function iterator(user, callback){
-            easemobSDK.user.remove(user.username,token,function(err, res, body){
-              if(!err && res.statusCode==200){
-                callback(null);
-              }else {
-                callback(err || 'can not delete !');
-              }
-            });
-          },function(err){
-            cb(null);
-          });
-        }
-      ],function(err,result){
+      add_chatroom_members_user = add_chatroom_members_user.concat(add_user);
+      async.eachSeries(add_chatroom_members_user, function iterator(user, callback){
+        easemobSDK.user.remove(user.username,token,function(err, res, body){
+          if(!err && res.statusCode==200){
+            callback(null);
+          }else {
+            callback(err || 'can not delete !');
+          }
+        });
+      },function(err){
         done(err);
       });
     });
@@ -629,22 +590,15 @@ describe( 'Chatroom Test', function(){
     it( 'Should return OK', function( done ) {
       var add_usernames = {};
       add_usernames.usernames = new Array();
-      async.waterfall([
-        function(cb){
-          async.eachSeries(add_user, function iterator(user, callback){
-            add_usernames.usernames.push(user.username);
-            callback(null);
-          },function(err){
-            cb(null);
-          });
-        },function(cb){
-          easemobSDK.chatroom.add_member_batch(add_usernames,chatroom_id ,token ,function( err, res,body ){
-            should.not.exists( err );
-            res.statusCode.should.equal( 200 );
-            done(err);
-          });
-        }
-      ],function(err,result){
+      _.each(add_user,function(user){
+        add_usernames.usernames.push(user.username);
+      });
+      easemobSDK.chatroom.add_member_batch(add_usernames,chatroom_id ,token ,function( err, res,body ){
+        should.not.exists( err );
+        res.statusCode.should.equal( 200 );
+        body.data.newmembers.should.match(add_usernames.usernames);
+        body.data.id.should.equal(chatroom_id);
+        done(err);
       });
     });
   });
@@ -694,12 +648,7 @@ describe( 'Chatroom Test', function(){
           })
         }
       ],function(err,result){
-        if(!err){
           done(err);
-        }else{
-          console.log(err);
-          console.log(result);
-        }
       });
 
     });
@@ -722,6 +671,7 @@ describe( 'Chatroom Test', function(){
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
         body.data.user.should.equal(remove_chatroom_member_user[3].username);
+        body.data.id.should.equal(chatroom_id);
         done(err);
       });
     });
@@ -779,12 +729,7 @@ describe( 'Chatroom Test', function(){
           })
         }],
         function(err,result){
-          if(!err){
             done(err);
-          }else{
-            console.log(err);
-            console.log(result);
-          }
         });
     });
     after(function(done){
@@ -807,6 +752,9 @@ describe( 'Chatroom Test', function(){
       easemobSDK.chatroom.remove_member_batch(usernames,chatroom_id ,token ,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
+        _.each(body.data,function(data){
+          data.result.should.be.true;
+        });
         done(err);
       });
     });
