@@ -54,9 +54,9 @@ describe( 'friend test', function(){
         console.log(res.body.entities);
         done();
       });
-    });    
+    });
   });
- 
+
  //查询好友
   describe( "display user of friend", function() {
     batch_user =[{
@@ -97,7 +97,7 @@ describe( 'friend test', function(){
         console.log(res.body.data);
         done();
       });
-    }); 
+    });
 });
 
  //解除好友
@@ -139,7 +139,7 @@ describe( 'friend test', function(){
         res.statusCode.should.equal(200);
         done();
       });
-    }); 
+    });
 });
 
    //增加好友黑名单
@@ -177,9 +177,9 @@ describe( 'friend test', function(){
         res.statusCode.should.equal(200);
         done();
       });
-    }); 
+    });
 });
- 
+
   //查询黑名单
   describe( 'display user of blocklist', function() {
     batch_user =[{
@@ -219,9 +219,9 @@ describe( 'friend test', function(){
         res.statusCode.should.equal(200);
         done();
       });
-    }); 
+    });
 });
- 
+
    //移除黑名单
   describe( 'delete user of blocklist', function() {
     batch_user =[{
@@ -261,13 +261,13 @@ describe( 'friend test', function(){
         res.statusCode.should.equal(200);
         done();
       });
-    }); 
+    });
 });
- 
- 
- 
- 
- 
- 
-  
-});  
+
+
+
+
+
+
+
+});
