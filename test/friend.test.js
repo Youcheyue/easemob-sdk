@@ -1,14 +1,13 @@
-var should = require( 'should' );
+var should              = require( 'should' );
 var testConfig  = require( './config_friend' );
 var easemobSDK  = require( '../index' );
 var async = require('async');
 
 describe( 'friend test', function(){
   var token;
-  before(function(done){
+  before( function( done ){
     // Init the SDK before testing.
     easemobSDK.init(testConfig.org_name,testConfig.app_name,testConfig.client_id,testConfig.client_secret);
-    console.log('222222222222222222');
     easemobSDK.get_token(function(err,result){
       if(err){
         console.log(err);
@@ -20,8 +19,7 @@ describe( 'friend test', function(){
     });
   });
   //增加好友
-  describe( 'add user for friend\n', function() {
-
+  describe( 'add user for friend', function() {
     batch_user =[{
       username        : 'liman',
       password        : '123456'
@@ -49,7 +47,7 @@ describe( 'friend test', function(){
         done();
       });
     });
-   it('add friend Should return OK\n', function( done ) {
+   it('add friend Should return OK', function( done ) {
          easemobSDK.friend.add_friend(batch_user[0].username,batch_user[1].username,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
@@ -60,7 +58,7 @@ describe( 'friend test', function(){
   });
 
  //查询好友
-  describe( "display user of friend\n", function() {
+  describe( "display user of friend", function() {
     batch_user =[{
       username        : 'liman1',
       password        : '123456'
@@ -92,7 +90,7 @@ describe( 'friend test', function(){
         done();
       });
     });
-    it('display friend Should return OK\n', function( done ) {
+    it('display friend Should return OK', function( done ) {
          easemobSDK.friend.show_friend(batch_user[0].username,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
@@ -103,7 +101,7 @@ describe( 'friend test', function(){
 });
 
  //解除好友
-  describe( "delete user of friend\n", function() {
+  describe( "delete user of friend", function() {
     batch_user =[{
       username        : 'liman111',
       password        : '123456'
@@ -135,7 +133,7 @@ describe( 'friend test', function(){
         done();
       });
     });
-    it('delete friend Should return OK\n', function( done ) {
+    it('delete friend Should return OK', function( done ) {
         easemobSDK.friend.delete_friend(batch_user[0].username,batch_user[1].username,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
@@ -145,7 +143,7 @@ describe( 'friend test', function(){
 });
 
    //增加好友黑名单
-  describe( 'add user for blocklist\n', function() {
+  describe( 'add user for blocklist', function() {
     batch_user =[{
       username        : 'limantest101',
       password        : '123456'
@@ -173,7 +171,7 @@ describe( 'friend test', function(){
         done();
       });
     });
-    it('add blocklist should return OK\n', function( done ) {
+    it('add blocklist should return OK', function( done ) {
          easemobSDK.friend.add_blacklist(batch_user[0].username,batch_user[1].username,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
@@ -183,7 +181,7 @@ describe( 'friend test', function(){
 });
 
   //查询黑名单
-  describe( 'display user of blocklist\n', function() {
+  describe( 'display user of blocklist', function() {
     batch_user =[{
       username        : 'limantest1',
       password        : '123456'
@@ -215,7 +213,7 @@ describe( 'friend test', function(){
         done();
       });
     });
-    it('display blocklist should return OK\n', function( done ) {
+    it('display blocklist should return OK', function( done ) {
    	 easemobSDK.friend.show_blacklist(batch_user[0].username,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
@@ -225,7 +223,7 @@ describe( 'friend test', function(){
 });
 
    //移除黑名单
-  describe( 'delete user of blocklist\n', function() {
+  describe( 'delete user of blocklist', function() {
     batch_user =[{
       username        : 'limantest11',
       password        : '123456'
@@ -257,7 +255,7 @@ describe( 'friend test', function(){
         done();
       });
     });
-    it('delete blocklist should return OK\n', function( done ) {
+    it('delete blocklist should return OK', function( done ) {
    	 easemobSDK.friend.delete_blacklist(batch_user[0].username,batch_user[1].username,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
