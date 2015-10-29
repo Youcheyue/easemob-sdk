@@ -6,7 +6,7 @@ var testConfig  = require( './config' );
 var easemobSDK 	= require( '../index' );
 var async = require('async');
 
-describe.only( 'Chatroom Test', function(){
+describe( 'Chatroom Test', function(){
   var token;
   before( function( done ){
     // Init the SDK before testing.
