@@ -573,33 +573,16 @@ describe( 'Chatroom Test', function(){
 
     });
     after(function(done){
-      async.waterfall([
-        function(cb){
-          async.eachSeries(add_chatroom_members_user, function iterator(user, callback){
-            easemobSDK.user.remove(user.username,token,function(err, res, body){
-              if(!err && res.statusCode==200){
-                callback(null);
-              }else {
-                callback(err || 'can not delete !');
-              }
-            });
-          },function(err){
-            cb(err);
-          });
-        },function(cb){
-          async.eachSeries(add_user, function iterator(user, callback){
-            easemobSDK.user.remove(user.username,token,function(err, res, body){
-              if(!err && res.statusCode==200){
-                callback(null);
-              }else {
-                callback(err || 'can not delete !');
-              }
-            });
-          },function(err){
-            cb(err);
-          });
-        }
-      ],function(err,result){
+      add_chatroom_members_user = add_chatroom_members_user.concat(add_user);
+      async.eachSeries(add_chatroom_members_user, function iterator(user, callback){
+        easemobSDK.user.remove(user.username,token,function(err, res, body){
+          if(!err && res.statusCode==200){
+            callback(null);
+          }else {
+            callback(err || 'can not delete !');
+          }
+        });
+      },function(err){
         done(err);
       });
     });
