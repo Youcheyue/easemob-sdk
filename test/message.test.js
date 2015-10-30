@@ -368,7 +368,7 @@ describe( 'Message Test', function(){
     });
   });
 
-  describe.only( 'Send through message', function() {
+  describe( 'Send through message', function() {
     var through_message_user =[{
       username        : 'through_message_wayne1',
       password        : '123456'
@@ -406,22 +406,24 @@ describe( 'Message Test', function(){
                                     // 一个用户u1或者群组, 也要用数组形式 ['u1'], 给用户发
                                     // 送时数组元素是用户名,给群组发送时数组元素是groupid
         "msg":{  //消息内容
-          "type":"cmd",  // 消息类型
+          "type":"txt",  // 消息类型
           "action":"action1"
         },
         "from":[through_message_user[0].username], //表示这个消息是谁发出来的, 可以没有这个属性, 那么就会显示是admin, 如果有的话, 则会显示是这个用户发出的
-        "ext":{   //扩展属性, 由app自己定义.可以没有这个字段，但是如果有，值不能是“ext:null“这种形式，否则出错
-          "attr1":"v1",
-          "attr2":"v2"
-        }
+        //"ext":{   //扩展属性, 由app自己定义.可以没有这个字段，但是如果有，值不能是“ext:null“这种形式，否则出错
+        //  "attr1":"v1",
+        //  "attr2":"v2"
+        //}
       };
       easemobSDK.message.send_through(data,token ,function( err, res,body ){
+        console.log(token);
         console.log(body);
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
         body.data[data.target].should.equal('success');
         if(!err && res.statusCode==200 ){
           easemobSDK.user.get_offline_msg_count(data.target ,token,function( err, res,body ){
+            console.log(body);
             if(!err && res.statusCode==200){
               body.data[data.target].should.not.equal(0);
             }

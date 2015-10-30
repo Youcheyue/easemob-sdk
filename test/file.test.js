@@ -9,7 +9,7 @@ var async = require('async');
 var fs = require('fs');
 var path = require("path");
 
-describe.only( 'File Test', function(){
+describe( 'File Test', function(){
   var token;
   before( function( done ){
     // Init the SDK before testing.
