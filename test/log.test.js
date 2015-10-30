@@ -4,8 +4,9 @@
 var _ = require('underscore');
 var testConfig  = require( './config' );
 var easemobSDK 	= require( '../index' );
+var should 		= require( 'should' );
 
-describe.only( 'log Test', function(){
+describe( 'log Test', function(){
   var token;
   before( function( done ){
     // Init the SDK before testing.
@@ -27,9 +28,6 @@ describe.only( 'log Test', function(){
         timestamp : '<' + Date.now()
       };
       easemobSDK.log.export(data,token ,function( err, res,body ){
-        console.log(body);
-        console.log(err);
-        console.log(res.statusCode);
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
         done();
