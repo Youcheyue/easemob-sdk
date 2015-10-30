@@ -52,11 +52,11 @@ describe( 'File Test', function(){
         done(err);
       });
     });
-    //after(function(done){
-    //  fs.unlink(filename,function(err){
-    //    done(err);
-    //  })
-    //});
+    after(function(done){
+      fs.unlink(filename,function(err){
+        done(err);
+      })
+    });
     it( 'Should return OK', function( done ) {
       easemobSDK.file.download(filename,secret,uuid,token,function(err){
         done(err);
@@ -81,11 +81,11 @@ describe( 'File Test', function(){
         done(err);
       });
     });
-    //after(function(done){
-    //  fs.unlink(filename,function(err){
-    //    done(err);
-    //  })
-    //});
+    after(function(done){
+      fs.unlink(filename,function(err){
+        done(err);
+      })
+    });
     it( 'Should return OK', function( done ) {
       easemobSDK.file.download_thumbnail(filename,secret,uuid,token,function(err){
         done(err);

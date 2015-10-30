@@ -356,7 +356,6 @@ describe( 'Chatroom Test', function(){
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
         body.data[0].affiliations[0].owner.should.equal(get_chatroom_data.owner);
-        console.log(body);
         done(err);
       });
     });
