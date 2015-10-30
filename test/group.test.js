@@ -41,12 +41,20 @@ describe( 'Group test', function(){
       async.waterfall([
         function (cb) {
           easemobSDK.user.remove_batch(10, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not delete !');
+            }
           })
         },
         function (cb) {
           easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not create batch !');
+            }
           })
         },
         function (cb) {
@@ -116,12 +124,20 @@ describe( 'Group test', function(){
       async.waterfall([
         function (cb) {
           easemobSDK.user.remove_batch(10, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not delete !');
+            }
           })
         },
         function (cb) {
           easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not create batch !');
+            }
           })
         },
         function (cb) {
@@ -142,7 +158,7 @@ describe( 'Group test', function(){
       easemobSDK.group.delete_group(groupids.pop(),token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        console.log(res.body);
+        //console.log(res.body);
         done();
       });
     });
@@ -171,12 +187,20 @@ describe( 'Group test', function(){
       async.waterfall([
         function (cb) {
           easemobSDK.user.remove_batch(10, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not delete !');
+            }
           })
         },
         function (cb) {
           easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not create batch !');
+            }
           })
         },
         function (cb) {
@@ -250,12 +274,20 @@ describe( 'Group test', function(){
       async.waterfall([
         function (cb) {
           easemobSDK.user.remove_batch(10, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not delete !');
+            }
           })
         },
         function (cb) {
           easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not create batch !');
+            }
           })
         },
         function (cb) {
@@ -296,8 +328,12 @@ describe( 'Group test', function(){
     it('display group many pages should return OK', function (done) {
       var limit = 2;
       var cursor;
+      var newids=[];
+      for (var i=0;i<groupids.length/limit;i++) {
+        newids.push(groupids[i]);
+      }
       //console.log(groupids);
-      async.eachSeries(groupids, function iterator(group_id, callback) {
+      async.eachSeries(newids, function iterator(group_id, callback) {
         easemobSDK.group.display_page_group(limit, cursor, token, function (err, res, body) {
           should.not.exists(err);
           res.statusCode.should.equal(200);
@@ -334,12 +370,20 @@ describe( 'Group test', function(){
       async.waterfall([
         function (cb) {
           easemobSDK.user.remove_batch(10, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not delete !');
+            }
           })
         },
         function (cb) {
           easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not create batch !');
+            }
           })
         },
         function (cb) {
@@ -393,10 +437,10 @@ describe( 'Group test', function(){
   //获取群组成员信息
   describe('get a member of group', function() {
     var batch_user =[{
-      username        : 'xxlimintest011',
+      username        : 'nnlimintest011',
       password        : '123456'
     },{
-      username        : 'xxlimintest22',
+      username        : 'limintest22',
       password        : '123456'
     }];
     var groupinfo={
@@ -413,18 +457,32 @@ describe( 'Group test', function(){
       async.waterfall([
         function (cb) {
           easemobSDK.user.remove_batch(10, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not delete !');
+            }
           })
         },
         function (cb) {
           easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              if(!err && res.statusCode==200){
+                cb(null);
+              }else{
+                cb(err || 'can not create batch !');
+              }
+            }else{
+              cb(err || 'can not create batch !');
+            }
           })
         },
         function (cb) {
           async.eachSeries([1], function iterator(item, callback) {
             easemobSDK.group.add_group(groupinfo, token, function (err, res, body) {
-              groupids.push(res.body.data.groupid);
+              //if(!err && res.statusCode==200){
+                groupids.push(res.body.data.groupid);
+              //}
               callback(err);
             })
           }, function (err) {
@@ -495,12 +553,20 @@ describe( 'Group test', function(){
       async.waterfall([
         function (cb) {
           easemobSDK.user.remove_batch(10, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not delete !');
+            }
           })
         },
         function (cb) {
           easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not create batch !');
+            }
           })
         },
         function (cb) {
@@ -542,7 +608,7 @@ describe( 'Group test', function(){
         easemobSDK.group.add_user_into_group(groupids[0], batch_user[2].username ,token,function( err, res,body ){
           should.not.exists( err );
           res.statusCode.should.equal(200);
-          console.log(res.body);
+          //console.log(res.body);
           done();
         });
       });
@@ -579,12 +645,20 @@ describe( 'Group test', function(){
       async.waterfall([
         function (cb) {
           easemobSDK.user.remove_batch(10, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not delete !');
+            }
           })
         },
         function (cb) {
           easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not create batch !');
+            }
           })
         },
         function (cb) {
@@ -626,7 +700,7 @@ describe( 'Group test', function(){
         easemobSDK.group.delete_user_from_group(groupids[0], batch_user[1].username ,token,function( err, res,body ){
           should.not.exists( err );
           res.statusCode.should.equal(200);
-          console.log(res.body);
+          //console.log(res.body);
           done();
         });
       });
@@ -681,7 +755,11 @@ describe( 'Group test', function(){
         },
         function (cb) {
           easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not create batch !');
+            }
           })
         },
         function (cb) {
@@ -724,7 +802,7 @@ describe( 'Group test', function(){
         easemobSDK.group.add_manyuser_into_group(groupids[0], users ,token,function( err, res,body ){
           should.not.exists( err );
           res.statusCode.should.equal(200);
-          console.log(res.body);
+          //console.log(res.body);
           done();
         });
       });
@@ -773,12 +851,20 @@ describe( 'Group test', function(){
       async.waterfall([
         function (cb) {
           easemobSDK.user.remove_batch(10, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not delete !');
+            }
           })
         },
         function (cb) {
           easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not create batch !');
+            }
           })
         },
         function (cb) {
@@ -821,7 +907,7 @@ describe( 'Group test', function(){
       easemobSDK.group.delete_manyuser_from_group(groupids[0], users ,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        console.log(res.body);
+        //console.log(res.body);
         done();
       });
       //});
@@ -870,12 +956,20 @@ describe( 'Group test', function(){
       async.waterfall([
         function (cb) {
           easemobSDK.user.remove_batch(10, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not delete !');
+            }
           })
         },
         function (cb) {
           easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not create batch !');
+            }
           })
         },
         function (cb) {
@@ -918,7 +1012,7 @@ describe( 'Group test', function(){
         easemobSDK.group.get_user_of_group(users.pop() ,token,function( err, res,body ){
           should.not.exists( err );
           res.statusCode.should.equal(200);
-          console.log(res.body);
+          //console.log(res.body);
           done();
         });
       });
@@ -968,12 +1062,20 @@ describe( 'Group test', function(){
       async.waterfall([
         function (cb) {
           easemobSDK.user.remove_batch(10, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not delete !');
+            }
           })
         },
         function (cb) {
           easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not create batch !');
+            }
           })
         },
         function (cb) {
@@ -1016,7 +1118,7 @@ describe( 'Group test', function(){
       easemobSDK.group.modify_owner_of_group(groupids[0],users[2],token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        console.log(res.body);
+        //console.log(res.body);
         done();
       });
       //});
@@ -1065,12 +1167,20 @@ describe( 'Group test', function(){
       async.waterfall([
         function (cb) {
           easemobSDK.user.remove_batch(10, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not delete !');
+            }
           })
         },
         function (cb) {
           easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not create batch !');
+            }
           })
         },
         function (cb) {
@@ -1112,7 +1222,7 @@ describe( 'Group test', function(){
       easemobSDK.group.add_blacklist_of_group(groupids[0],users[3],token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        console.log(res.body);
+        //console.log(res.body);
         done();
       });
       //});
@@ -1161,12 +1271,20 @@ describe( 'Group test', function(){
       async.waterfall([
         function (cb) {
           easemobSDK.user.remove_batch(10, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not delete !');
+            }
           })
         },
         function (cb) {
           easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not create batch !');
+            }
           })
         },
         function (cb) {
@@ -1208,7 +1326,7 @@ describe( 'Group test', function(){
       easemobSDK.group.add_many_blacklist_of_group(groupids[0],users,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        console.log(res.body);
+        //console.log(res.body);
         done();
       });
       //});
@@ -1257,12 +1375,20 @@ describe( 'Group test', function(){
       async.waterfall([
         function (cb) {
           easemobSDK.user.remove_batch(10, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not delete !');
+            }
           })
         },
         function (cb) {
           easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not create batch !');
+            }
           })
         },
         function (cb) {
@@ -1309,7 +1435,7 @@ describe( 'Group test', function(){
       easemobSDK.group.display_blacklist_of_group(groupids[0],token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        console.log(res.body);
+        //console.log(res.body);
         done();
       });
       //});
@@ -1356,12 +1482,20 @@ describe( 'Group test', function(){
       async.waterfall([
         function (cb) {
           easemobSDK.user.remove_batch(10, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not delete !');
+            }
           })
         },
         function (cb) {
           easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not create batch !');
+            }
           })
         },
         function (cb) {
@@ -1408,7 +1542,7 @@ describe( 'Group test', function(){
       easemobSDK.group.delete_blacklist_of_group(groupids[0],users[0],token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        console.log(res.body);
+        //console.log(res.body);
         done();
       });
       //});
@@ -1455,12 +1589,20 @@ describe( 'Group test', function(){
       async.waterfall([
         function (cb) {
           easemobSDK.user.remove_batch(10, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not delete !');
+            }
           })
         },
         function (cb) {
           easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not create batch !');
+            }
           })
         },
         function (cb) {
@@ -1507,7 +1649,7 @@ describe( 'Group test', function(){
       easemobSDK.group.delete_many_blacklist_of_group(groupids[0],users,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        console.log(res.body);
+        //console.log(res.body);
         done();
       });
       //});
@@ -1543,12 +1685,20 @@ describe( 'Group test', function(){
       async.waterfall([
         function (cb) {
           easemobSDK.user.remove_batch(10, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not delete !');
+            }
           })
         },
         function (cb) {
           easemobSDK.user.create_batch(batch_user, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not create batch !');
+            }
           })
         },
         function (cb) {
@@ -1570,7 +1720,11 @@ describe( 'Group test', function(){
       async.waterfall([
         function (cb) {
           easemobSDK.user.remove_batch(10, token, function (err, res, body) {
-            cb(err);
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not delete !');
+            }
           })
         },
         function (cb) {
@@ -1590,7 +1744,7 @@ describe( 'Group test', function(){
       easemobSDK.group.display_group_detail(groupids,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        console.log(res.body);
+        //console.log(res.body);
         done();
       });
     });
