@@ -22,7 +22,7 @@ describe( 'Message Test', function(){
     });
   });
 
-  describe( 'Send txt message', function() {
+  describe.only( 'Send txt message', function() {
     var data = {
       "target_type" : "users", // users 给用户发消息, chatgroups 给群发消息
       "target" : ["wayne"], // 注意这里需要用数组,数组长度建议不大于20, 即使只有一个用户,
@@ -40,9 +40,9 @@ describe( 'Message Test', function(){
     };
     it( 'Should return OK', function( done ) {
       easemobSDK.message.send_txt(data,token ,function( err, res,body ){
-        console.log(body);
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
+        body.data[data.target].should.equal('success');
         done();
       });
     });
