@@ -297,7 +297,6 @@ describe( 'Group test', function(){
       var limit = 2;
       var cursor;
       //console.log(groupids);
-      console.log('============');
       async.eachSeries(groupids, function iterator(group_id, callback) {
         easemobSDK.group.display_page_group(limit, cursor, token, function (err, res, body) {
           should.not.exists(err);
@@ -394,10 +393,10 @@ describe( 'Group test', function(){
   //获取群组成员信息
   describe('get a member of group', function() {
     var batch_user =[{
-      username        : 'limintest011',
+      username        : 'xxlimintest011',
       password        : '123456'
     },{
-      username        : 'limintest22',
+      username        : 'xxlimintest22',
       password        : '123456'
     }];
     var groupinfo={
@@ -406,8 +405,8 @@ describe( 'Group test', function(){
       "public":true,
       "maxusers":300,
       "approval":true,
-      "owner":"limintest011",
-      "members":["limintest22"]
+      "owner":batch_user[0].username,
+      "members":[batch_user[1].username]
     };
     var groupids = [];
     before(function (done) {
@@ -472,24 +471,24 @@ describe( 'Group test', function(){
   //群组成员加人
   describe('add a user into group', function() {
     var batch_user =[{
-      username        : 'limintest011',
+      username        : 'yylimintest011',
       password        : '123456'
     },{
-      username        : 'limintest22',
+      username        : 'yylimintest22',
       password        : '123456'
     },{
-      username        : 'limintest333',
+      username        : 'yylimintest333',
       password        : '123456'
     }
     ];
     var groupinfo={
-      "groupname":"testrestgrp1212",
+      "groupname":"testrestgrp12xx",
       "desc":"server create group",
       "public":true,
       "maxusers":300,
       "approval":true,
-      "owner":"limintest011",
-      "members":["limintest22"]
+      "owner":batch_user[0].username,
+      "members":[batch_user[1].username]
     };
     var groupids = [];
     before(function (done) {
@@ -556,10 +555,10 @@ describe( 'Group test', function(){
   //群组成员减人
   describe('delete a user from group', function() {
     var batch_user =[{
-      username        : 'limintest011',
+      username        : 'ttlimintest011',
       password        : '123456'
     },{
-      username        : 'limintest22',
+      username        : 'limintesttt22',
       password        : '123456'
     },{
       username        : 'limintest333',
@@ -572,8 +571,8 @@ describe( 'Group test', function(){
       "public":true,
       "maxusers":300,
       "approval":true,
-      "owner":"limintest011",
-      "members":["limintest22","limintest333"]
+      "owner":batch_user[0].username,
+      "members":[batch_user[1].username,batch_user[2].username]
     };
     var groupids = [];
     before(function (done) {
@@ -641,21 +640,21 @@ describe( 'Group test', function(){
   //群组增加多个用户
   describe('add many users into group', function() {
     var batch_user =[{
-      username        : 'limintest011',
+      username        : 'vvlimintest011',
       password        : '123456'
     },{
-      username        : 'limintest22',
+      username        : 'vvlimintest22',
       password        : '123456'
     },{
-      username        : 'limintest333',
+      username        : 'vvlimintest333',
       password        : '123456'
     },
       {
-        username        : 'limintest444',
+        username        : 'vvlimintest444',
         password        : '123456'
       },
       {
-        username        : 'limintest555',
+        username        : 'vvlimintest555',
         password        : '123456'
       }
     ];
@@ -665,8 +664,8 @@ describe( 'Group test', function(){
       "public":true,
       "maxusers":300,
       "approval":true,
-      "owner":"limintest011",
-      "members":["limintest22","limintest333"]
+      "owner":batch_user[0].username,
+      "members":[batch_user[1].username,batch_user[2].username]
     };
     var groupids = [];
     var users=[];
@@ -738,21 +737,21 @@ describe( 'Group test', function(){
   //群组删除多个用户
   describe('delete many users from group', function() {
     var batch_user =[{
-      username        : 'limintest011',
+      username        : 'sslimintest011',
       password        : '123456'
     },{
-      username        : 'limintest22',
+      username        : 'sslimintest22',
       password        : '123456'
     },{
-      username        : 'limintest333',
+      username        : 'sslimintest333',
       password        : '123456'
     },
       {
-        username        : 'limintest444',
+        username        : 'sslimintest444',
         password        : '123456'
       },
       {
-        username        : 'limintest555',
+        username        : 'sslimintest555',
         password        : '123456'
       }
     ];
@@ -762,8 +761,8 @@ describe( 'Group test', function(){
       "public":true,
       "maxusers":300,
       "approval":true,
-      "owner":"limintest011",
-      "members":["limintest22","limintest333","limintest444","limintest555"]
+      "owner":batch_user[0].username,
+      "members":[batch_user[1].username,batch_user[2].username,batch_user[3].username,batch_user[4].username]
     };
     var groupids = [];
     var users=[];
@@ -835,21 +834,21 @@ describe( 'Group test', function(){
   //获取一个用户参与的所有群组
   describe('get user of group', function() {
     var batch_user =[{
-      username        : 'limintest011',
+      username        : 'rrlimintest011',
       password        : '123456'
     },{
-      username        : 'limintest22',
+      username        : 'rrlimintest22',
       password        : '123456'
     },{
-      username        : 'limintest333',
+      username        : 'rrlimintest333',
       password        : '123456'
     },
       {
-        username        : 'limintest444',
+        username        : 'rrlimintest444',
         password        : '123456'
       },
       {
-        username        : 'limintest555',
+        username        : 'rrlimintest555',
         password        : '123456'
       }
     ];
@@ -859,8 +858,8 @@ describe( 'Group test', function(){
       "public":true,
       "maxusers":300,
       "approval":true,
-      "owner":"limintest011",
-      "members":["limintest22","limintest333","limintest444","limintest555"]
+      "owner":batch_user[0].username,
+      "members":[batch_user[1].username,batch_user[2].username,batch_user[3].username,batch_user[4].username]
     };
     var groupids = [];
     var users=[];
@@ -933,21 +932,21 @@ describe( 'Group test', function(){
   //群组转让
   describe('modify owner of group', function() {
     var batch_user =[{
-      username        : 'limintest011',
+      username        : 'pplimintest011',
       password        : '123456'
     },{
-      username        : 'limintest22',
+      username        : 'pplimintest22',
       password        : '123456'
     },{
-      username        : 'limintest333',
+      username        : 'pplimintest333',
       password        : '123456'
     },
       {
-        username        : 'limintest444',
+        username        : 'pplimintest444',
         password        : '123456'
       },
       {
-        username        : 'limintest555',
+        username        : 'pplimintest555',
         password        : '123456'
       }
     ];
@@ -957,8 +956,8 @@ describe( 'Group test', function(){
       "public":true,
       "maxusers":300,
       "approval":true,
-      "owner":"limintest011",
-      "members":["limintest22","limintest333","limintest444","limintest555"]
+      "owner":batch_user[0].username,
+      "members":[batch_user[1].username,batch_user[2].username,batch_user[3].username,batch_user[4].username]
     };
     var groupids = [];
     var users=[];
@@ -1030,21 +1029,21 @@ describe( 'Group test', function(){
   //群组黑名单个添加
   describe('add blacklist info group', function() {
     var batch_user =[{
-      username        : 'limintest011',
+      username        : 'gglimintest011',
       password        : '123456'
     },{
-      username        : 'limintest22',
+      username        : 'gglimintest22',
       password        : '123456'
     },{
-      username        : 'limintest333',
+      username        : 'gglimintest333',
       password        : '123456'
     },
       {
-        username        : 'limintest444',
+        username        : 'gglimintest444',
         password        : '123456'
       },
       {
-        username        : 'limintest555',
+        username        : 'gglimintest555',
         password        : '123456'
       }
     ];
@@ -1054,8 +1053,8 @@ describe( 'Group test', function(){
       "public":true,
       "maxusers":300,
       "approval":true,
-      "owner":"limintest011",
-      "members":["limintest22","limintest333"]
+      "owner":batch_user[0].username,
+      "members":[batch_user[1].username,batch_user[2].username]
     };
     var groupids = [];
     var users=[];
@@ -1126,21 +1125,21 @@ describe( 'Group test', function(){
   //群组黑名批量添加
   describe('add many blacklist info group', function() {
     var batch_user =[{
-      username        : 'limintest011',
+      username        : 'bblimintest011',
       password        : '123456'
     },{
-      username        : 'limintest22',
+      username        : 'bblimintest22',
       password        : '123456'
     },{
-      username        : 'limintest333',
+      username        : 'bblimintest333',
       password        : '123456'
     },
       {
-        username        : 'limintest444',
+        username        : 'bblimintest444',
         password        : '123456'
       },
       {
-        username        : 'limintest555',
+        username        : 'bblimintest555',
         password        : '123456'
       }
     ];
@@ -1150,8 +1149,8 @@ describe( 'Group test', function(){
       "public":true,
       "maxusers":300,
       "approval":true,
-      "owner":"limintest011",
-      "members":["limintest22","limintest333"]
+      "owner":batch_user[0].username,
+      "members":[batch_user[0].username,batch_user[1].username]
     };
     var groupids = [];
     var users=[];
@@ -1222,21 +1221,21 @@ describe( 'Group test', function(){
 //查询群的黑名单
   describe('display a blacklist of group', function() {
     var batch_user =[{
-      username        : 'limintest011',
+      username        : 'ddlimintest011',
       password        : '123456'
     },{
-      username        : 'limintest22',
+      username        : 'ddlimintest22',
       password        : '123456'
     },{
-      username        : 'limintest333',
+      username        : 'ddlimintest333',
       password        : '123456'
     },
       {
-        username        : 'limintest444',
+        username        : 'ddlimintest444',
         password        : '123456'
       },
       {
-        username        : 'limintest555',
+        username        : 'ddlimintest555',
         password        : '123456'
       }
     ];
@@ -1246,8 +1245,8 @@ describe( 'Group test', function(){
       "public":true,
       "maxusers":300,
       "approval":true,
-      "owner":"limintest011",
-      "members":["limintest22","limintest333"]
+      "owner":batch_user[0].username,
+      "members":[batch_user[1].username,batch_user[2].username]
     };
     var groupids = [];
     var users=[];
@@ -1321,21 +1320,21 @@ describe( 'Group test', function(){
   //黑名单单个删除
   describe('delete a blacklist of group', function() {
     var batch_user =[{
-      username        : 'limintest011',
+      username        : 'cclimintest011',
       password        : '123456'
     },{
-      username        : 'limintest22',
+      username        : 'cclimintest22',
       password        : '123456'
     },{
-      username        : 'limintest333',
+      username        : 'cclimintest333',
       password        : '123456'
     },
       {
-        username        : 'limintest444',
+        username        : 'cclimintest444',
         password        : '123456'
       },
       {
-        username        : 'limintest555',
+        username        : 'cclimintest555',
         password        : '123456'
       }
     ];
@@ -1345,8 +1344,8 @@ describe( 'Group test', function(){
       "public":true,
       "maxusers":300,
       "approval":true,
-      "owner":"limintest011",
-      "members":["limintest22","limintest333"]
+      "owner":batch_user[0].username,
+      "members":[batch_user[1].username,batch_user[2].username]
     };
     var groupids = [];
     var users=[];
@@ -1420,21 +1419,21 @@ describe( 'Group test', function(){
   //黑名单批量删除
   describe('delete many blacklists of group', function() {
     var batch_user =[{
-      username        : 'limintest011',
+      username        : 'gglimintest011',
       password        : '123456'
     },{
-      username        : 'limintest22',
+      username        : 'gglimintest22',
       password        : '123456'
     },{
-      username        : 'limintest333',
+      username        : 'gglimintest333',
       password        : '123456'
     },
       {
-        username        : 'limintest444',
+        username        : 'gglimintest444',
         password        : '123456'
       },
       {
-        username        : 'limintest555',
+        username        : 'gglimintest555',
         password        : '123456'
       }
     ];
@@ -1444,8 +1443,8 @@ describe( 'Group test', function(){
       "public":true,
       "maxusers":300,
       "approval":true,
-      "owner":"limintest011",
-      "members":["limintest22","limintest333"]
+      "owner":batch_user[0].username,
+      "members":[batch_user[1].username,batch_user[2].username]
     };
     var groupids = [];
     var users=[];
