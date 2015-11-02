@@ -294,7 +294,7 @@ describe( 'User Test', function(){
     });
   });
 
-  describe.only( 'Get user offline msg status', function() {
+  describe( 'Get user offline msg status', function() {
     var username    = '';
     var password    = '123456';
     var msg_id      = '';
