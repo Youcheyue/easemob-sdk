@@ -8,21 +8,20 @@ var async = require('async');
 var fs = require('fs');
 var path = require("path");
 
-describe( 'Message Test', function(){
+describe.only( 'Message Test', function(){
   var token;
   before( function( done ){
     // Init the SDK before testing.
     easemobSDK.init(testConfig.org_name,testConfig.app_name,testConfig.client_id,testConfig.client_secret);
     easemobSDK.get_token(function(err,result){
-      if(err){
-        console.log(err);
-        console.log(result);
-      }else{
+      if(!err){
         token = result;
         done();
       }
     });
   });
+
+
 
   describe( 'Send txt message', function() {
     var text_message_user =[{
@@ -36,10 +35,26 @@ describe( 'Message Test', function(){
       password        : '123456'
     }];
     before(function(done){
-      easemobSDK.user.create_batch(text_message_user,token,function(err, res, body){
-        if(!err && res.statusCode==200){
-          done(err);
+      async.waterfall([
+        function(cb){
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not delete !');
+            }
+          })
+        },function(cb){
+          easemobSDK.user.create_batch(text_message_user,token,function(err, res, body){
+            if(!err && res.statusCode==200){
+              cb(err);
+            }else{
+              cb(err || 'request error!')
+            }
+          });
         }
+      ],function(err,result){
+        done(err);
       });
     });
     after(function(done){
@@ -80,8 +95,8 @@ describe( 'Message Test', function(){
             if(!err && res.statusCode==200){
               body.data[data.target].should.not.equal(0);
             }
+            done(err);
           });
-          done(err);
         }
       });
     });
@@ -166,7 +181,6 @@ describe( 'Message Test', function(){
         //}
       };
       easemobSDK.message.send_img(data,token ,function( err, res,body ){
-        console.log(body);
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
         body.data[data.target].should.equal('success');
@@ -175,8 +189,9 @@ describe( 'Message Test', function(){
             if(!err && res.statusCode==200){
               body.data[data.target].should.not.equal('0');
             }
+            done(err);
           });
-          done(err);
+
         }
       });
     });
@@ -267,8 +282,9 @@ describe( 'Message Test', function(){
             if(!err && res.statusCode==200){
               body.data[data.target].should.not.equal('0');
             }
+            done(err);
           });
-          done(err);
+
         }
       });
     });
@@ -361,8 +377,9 @@ describe( 'Message Test', function(){
             if(!err && res.statusCode==200){
               body.data[data.target].should.not.equal('0');
             }
+            done(err);
           });
-          done(err);
+
         }
       });
     });
@@ -380,10 +397,27 @@ describe( 'Message Test', function(){
       password        : '123456'
     }];
     before(function(done){
-      easemobSDK.user.create_batch(through_message_user,token,function(err, res, body){
-        if(!err && res.statusCode==200){
-          done(err);
+      async.waterfall([
+        function(cb){
+          easemobSDK.user.remove_batch(10, token, function (err, res, body) {
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'can not delete !');
+            }
+          })
+        },
+        function(cb){
+          easemobSDK.user.create_batch(through_message_user,token,function(err, res, body){
+            if(!err && res.statusCode==200){
+              cb(null);
+            }else{
+              cb(err || 'request error!');
+            }
+          });
         }
+      ],function(err,result){
+        done(err);
       });
     });
     after(function(done){
@@ -416,19 +450,16 @@ describe( 'Message Test', function(){
         //}
       };
       easemobSDK.message.send_through(data,token ,function( err, res,body ){
-        console.log(token);
-        console.log(body);
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
         body.data[data.target].should.equal('success');
         if(!err && res.statusCode==200 ){
           easemobSDK.user.get_offline_msg_count(data.target ,token,function( err, res,body ){
-            console.log(body);
             if(!err && res.statusCode==200){
               body.data[data.target].should.not.equal(0);
             }
+            done(err);
           });
-          done(err);
         }
       });
     });

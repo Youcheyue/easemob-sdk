@@ -15,10 +15,7 @@ describe( 'File Test', function(){
     // Init the SDK before testing.
     easemobSDK.init(testConfig.org_name,testConfig.app_name,testConfig.client_id,testConfig.client_secret);
     easemobSDK.get_token(function(err,result){
-      if(err){
-        console.log(err);
-        console.log(result);
-      }else{
+      if(!err){
         token = result;
         done();
       }

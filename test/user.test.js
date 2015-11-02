@@ -9,10 +9,7 @@ describe( 'User Test', function(){
     // Init the SDK before testing.
     easemobSDK.init(testConfig.org_name,testConfig.app_name,testConfig.client_id,testConfig.client_secret);
     easemobSDK.get_token(function(err,result){
-      if(err){
-        console.log(err);
-        console.log(result);
-      }else{
+      if(!err){
         token = result;
         done();
       }
@@ -140,10 +137,6 @@ describe( 'User Test', function(){
             res.statusCode.should.equal( 200 );
             done();
           });
-        }else{
-          console.log(err);
-          console.log(res.statusCode);
-          console.log(body.cursor);
         }
       });
     });

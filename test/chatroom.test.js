@@ -13,10 +13,7 @@ describe( 'Chatroom Test', function(){
     // Init the SDK before testing.
     easemobSDK.init(testConfig.org_name,testConfig.app_name,testConfig.client_id,testConfig.client_secret);
     easemobSDK.get_token(function(err,result){
-      if(err){
-        console.log(err);
-        console.log(result);
-      }else{
+      if(!err){
         token = result;
         done(err);
       }
@@ -737,7 +734,6 @@ describe( 'Chatroom Test', function(){
           if(!err && res.statusCode==200){
             callback(null);
           }else {
-            console.log(body);
             callback(err || 'can not delete !');
           }
         });

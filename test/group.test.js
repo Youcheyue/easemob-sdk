@@ -9,11 +9,7 @@ describe( 'Group test', function(){
     // Init the SDK before testing.
     easemobSDK.init(testConfig.org_name,testConfig.app_name,testConfig.client_id,testConfig.client_secret);
     easemobSDK.get_token(function(err,result){
-      if(err){
-        console.log(err);
-        console.log(result);
-      }else{
-        token = result;
+      if(!err){
         done();
       }
     });
@@ -95,7 +91,6 @@ describe( 'Group test', function(){
       easemobSDK.group.add_group(groupinfo,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        console.log(res.body.data.groupid);
         done();
       });
     });
@@ -158,7 +153,6 @@ describe( 'Group test', function(){
       easemobSDK.group.delete_group(groupids.pop(),token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        //console.log(res.body);
         done();
       });
     });
@@ -240,7 +234,6 @@ describe( 'Group test', function(){
     it('display group should return OK', function( done ) {
       async.eachSeries(groupids,function iterator(group_id, callback) {
         easemobSDK.group.display_group(token,function( err, res,body ){
-          //console.log(body);
           should.not.exists( err );
           res.statusCode.should.equal(200);
           done();
@@ -332,12 +325,10 @@ describe( 'Group test', function(){
       for (var i=0;i<groupids.length/limit;i++) {
         newids.push(groupids[i]);
       }
-      //console.log(groupids);
       async.eachSeries(newids, function iterator(group_id, callback) {
         easemobSDK.group.display_page_group(limit, cursor, token, function (err, res, body) {
           should.not.exists(err);
           res.statusCode.should.equal(200);
-          //console.log(res.body);
           cursor = res.body.cursor;
           callback(err);
         });
@@ -428,7 +419,6 @@ describe( 'Group test', function(){
       easemobSDK.group.modify_groupinfo(groupids[0],newgroupinfo,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        console.log(res.body.data);
         done();
       });
     });
@@ -514,12 +504,10 @@ describe( 'Group test', function(){
       });
     });
     it('get member of group should return OK', function( done ) {
-      console.log(groupids);
       async.eachSeries(groupids,function iterator(group_id, callback) {
         easemobSDK.group.get_member_group(groupids[0],token,function( err, res,body ){
           should.not.exists( err );
           res.statusCode.should.equal(200);
-          console.log(res.body.data);
           done();
         });
       });
@@ -608,7 +596,6 @@ describe( 'Group test', function(){
         easemobSDK.group.add_user_into_group(groupids[0], batch_user[2].username ,token,function( err, res,body ){
           should.not.exists( err );
           res.statusCode.should.equal(200);
-          //console.log(res.body);
           done();
         });
       });
@@ -700,12 +687,9 @@ describe( 'Group test', function(){
         easemobSDK.group.delete_user_from_group(groupids[0], batch_user[1].username ,token,function( err, res,body ){
           should.not.exists( err );
           res.statusCode.should.equal(200);
-          //console.log(res.body);
           done();
         });
       });
-
-
     });
 
   });
@@ -797,12 +781,10 @@ describe( 'Group test', function(){
       });
     });
     it('add many users into group should return OK', function( done ) {
-      console.log(users);
       async.eachSeries(groupids,function iterator(group_id, callback) {
         easemobSDK.group.add_manyuser_into_group(groupids[0], users ,token,function( err, res,body ){
           should.not.exists( err );
           res.statusCode.should.equal(200);
-          //console.log(res.body);
           done();
         });
       });
@@ -902,17 +884,11 @@ describe( 'Group test', function(){
       });
     });
     it('delete many users from group should return OK', function( done ) {
-      console.log(users);
-      //async.eachSeries(groupids,function iterator(group_id, callback) {
       easemobSDK.group.delete_manyuser_from_group(groupids[0], users ,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        //console.log(res.body);
         done();
       });
-      //});
-
-
     });
 
   });
@@ -1007,12 +983,10 @@ describe( 'Group test', function(){
       });
     });
     it('get user of group should return OK', function( done ) {
-      console.log(users);
       async.eachSeries(users,function iterator(group_id, callback) {
         easemobSDK.group.get_user_of_group(users.pop() ,token,function( err, res,body ){
           should.not.exists( err );
           res.statusCode.should.equal(200);
-          //console.log(res.body);
           done();
         });
       });
@@ -1113,19 +1087,13 @@ describe( 'Group test', function(){
       });
     });
     it('modify owner of group should return OK', function( done ) {
-      console.log(users);
       //async.eachSeries([1],function iterator(group_id, callback) {
       easemobSDK.group.modify_owner_of_group(groupids[0],users[2],token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        //console.log(res.body);
         done();
       });
-      //});
-
-
     });
-
   });
 
   //群组黑名单个添加
@@ -1222,14 +1190,9 @@ describe( 'Group test', function(){
       easemobSDK.group.add_blacklist_of_group(groupids[0],users[3],token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        //console.log(res.body);
         done();
       });
-      //});
-
-
     });
-
   });
 
   //群组黑名批量添加
@@ -1326,12 +1289,8 @@ describe( 'Group test', function(){
       easemobSDK.group.add_many_blacklist_of_group(groupids[0],users,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        //console.log(res.body);
         done();
       });
-      //});
-
-
     });
 
   });
@@ -1435,7 +1394,6 @@ describe( 'Group test', function(){
       easemobSDK.group.display_blacklist_of_group(groupids[0],token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        //console.log(res.body);
         done();
       });
       //});
@@ -1542,7 +1500,6 @@ describe( 'Group test', function(){
       easemobSDK.group.delete_blacklist_of_group(groupids[0],users[0],token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        //console.log(res.body);
         done();
       });
       //});
@@ -1649,10 +1606,8 @@ describe( 'Group test', function(){
       easemobSDK.group.delete_many_blacklist_of_group(groupids[0],users,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        //console.log(res.body);
         done();
       });
-      //});
     });
 
   });
@@ -1744,7 +1699,6 @@ describe( 'Group test', function(){
       easemobSDK.group.display_group_detail(groupids,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        //console.log(res.body);
         done();
       });
     });
