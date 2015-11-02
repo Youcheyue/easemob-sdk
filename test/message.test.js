@@ -8,7 +8,7 @@ var async = require('async');
 var fs = require('fs');
 var path = require("path");
 
-describe.only( 'Message Test', function(){
+describe( 'Message Test', function(){
   var token;
   before( function( done ){
     // Init the SDK before testing.
@@ -290,7 +290,7 @@ describe.only( 'Message Test', function(){
     });
   });
 
-  describe( 'Send vedio message', function() {
+  describe( 'Send video message', function() {
     var vedio_message_user =[{
       username        : 'vedio_message_wayne1',
       password        : '123456'
