@@ -10,6 +10,7 @@ describe( 'Group test', function(){
     easemobSDK.init(testConfig.org_name,testConfig.app_name,testConfig.client_id,testConfig.client_secret);
     easemobSDK.get_token(function(err,result){
       if(!err){
+        token = result;
         done();
       }
     });
