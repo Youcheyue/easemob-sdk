@@ -1,5 +1,5 @@
 var should              = require( 'should' );
-var testConfig  = require( './config_friend' );
+var testConfig  = require( './config' );
 var easemobSDK  = require( '../index' );
 var async = require('async');
 

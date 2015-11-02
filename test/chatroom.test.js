@@ -352,7 +352,14 @@ describe( 'Chatroom Test', function(){
       easemobSDK.chatroom.get(chatroom_id ,token ,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
-        body.data[0].affiliations[0].owner.should.equal(get_chatroom_data.owner);
+        var is_pass = false;
+        _.each(body.data[0].affiliations,function(user){
+          if(user['owner']){
+            user['owner'].should.equal(get_chatroom_data.owner);
+            is_pass = true;
+          }
+        });
+        is_pass.should.be.true;
         done(err);
       });
     });

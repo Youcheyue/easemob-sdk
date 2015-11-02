@@ -8,7 +8,7 @@ var async = require('async');
 var fs = require('fs');
 var path = require("path");
 
-describe.only( 'Message Test', function(){
+describe( 'Message Test', function(){
   var token;
   before( function( done ){
     // Init the SDK before testing.
@@ -238,8 +238,6 @@ describe.only( 'Message Test', function(){
     after(function(done){
       async.eachSeries(audio_message_user, function iterator(user, callback){
         easemobSDK.user.remove(user.username,token,function(err, res, body){
-          console.log(body);
-
           if(!err && res.statusCode==200){
             callback(null);
           }else {
@@ -389,8 +387,6 @@ describe.only( 'Message Test', function(){
         },
         function(cb){
           easemobSDK.user.create_batch(through_message_user,token,function(err, res, body){
-            console.log(res.statusCode);
-            console.log(body);
             if(!err && res.statusCode==200){
               cb(null);
             }else{
