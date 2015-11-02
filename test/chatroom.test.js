@@ -13,10 +13,7 @@ describe( 'Chatroom Test', function(){
     // Init the SDK before testing.
     easemobSDK.init(testConfig.org_name,testConfig.app_name,testConfig.client_id,testConfig.client_secret);
     easemobSDK.get_token(function(err,result){
-      if(err){
-        console.log(err);
-        console.log(result);
-      }else{
+      if(!err){
         token = result;
         done(err);
       }
@@ -355,8 +352,14 @@ describe( 'Chatroom Test', function(){
       easemobSDK.chatroom.get(chatroom_id ,token ,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
-        body.data[0].affiliations[0].owner.should.equal(get_chatroom_data.owner);
-        console.log(body);
+        var is_pass = false;
+        _.each(body.data[0].affiliations,function(user){
+          if(user['owner']){
+            user['owner'].should.equal(get_chatroom_data.owner);
+            is_pass = true;
+          }
+        });
+        is_pass.should.be.true;
         done(err);
       });
     });
@@ -738,7 +741,6 @@ describe( 'Chatroom Test', function(){
           if(!err && res.statusCode==200){
             callback(null);
           }else {
-            console.log(body);
             callback(err || 'can not delete !');
           }
         });

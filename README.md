@@ -18,6 +18,9 @@
 easemob nodejs sdk
 
 
+[![npm status](https://nodei.co/npm/easemob-sdk.svg?downloads=true&stars=true&downloadRank=true)](https://www.npmjs.com/package/easemob-sdk)
+
+
 ## Installation
 
 node:

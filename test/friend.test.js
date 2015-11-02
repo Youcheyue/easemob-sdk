@@ -1,5 +1,5 @@
 var should              = require( 'should' );
-var testConfig  = require( './config_friend' );
+var testConfig  = require( './config' );
 var easemobSDK  = require( '../index' );
 var async = require('async');
 
@@ -9,10 +9,7 @@ describe( 'friend test', function(){
     // Init the SDK before testing.
     easemobSDK.init(testConfig.org_name,testConfig.app_name,testConfig.client_id,testConfig.client_secret);
     easemobSDK.get_token(function(err,result){
-      if(err){
-        console.log(err);
-        console.log(result);
-      }else{
+      if(!err){
         token = result;
         done();
       }
@@ -51,7 +48,6 @@ describe( 'friend test', function(){
          easemobSDK.friend.add_friend(batch_user[0].username,batch_user[1].username,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        console.log(res.body.entities);
         done();
       });
     });
@@ -94,7 +90,6 @@ describe( 'friend test', function(){
          easemobSDK.friend.show_friend(batch_user[0].username,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal(200);
-        console.log(res.body.data);
         done();
       });
     });

@@ -9,10 +9,7 @@ describe( 'User Test', function(){
     // Init the SDK before testing.
     easemobSDK.init(testConfig.org_name,testConfig.app_name,testConfig.client_id,testConfig.client_secret);
     easemobSDK.get_token(function(err,result){
-      if(err){
-        console.log(err);
-        console.log(result);
-      }else{
+      if(!err){
         token = result;
         done();
       }
@@ -140,10 +137,6 @@ describe( 'User Test', function(){
             res.statusCode.should.equal( 200 );
             done();
           });
-        }else{
-          console.log(err);
-          console.log(res.statusCode);
-          console.log(body.cursor);
         }
       });
     });
@@ -300,15 +293,38 @@ describe( 'User Test', function(){
       });
     });
   });
-/*  describe( 'Get user offline msg status', function() {
-    var username    = 'msg_status_wayne';
+
+  describe( 'Get user offline msg status', function() {
+    var username    = '';
     var password    = '123456';
     var msg_id      = '';
     before(function(done){
-      easemobSDK.user.create(username,password,token,function(err, res, body){
-        if(!err && res.statusCode==200){
-          done();
+      async.waterfall([
+        function(cb){
+          var data = {
+            limit : 1,
+            timestamp : '<' + Date.now()
+          };
+          easemobSDK.log.export(data,token ,function( err, res,body ){
+            if(!err && res.statusCode==200){
+              msg_id = body.entities[0]['msg_id'];
+              username = body.entities[0]['to'];
+              cb(null)
+            }else{
+              cb(err || 'Could not export log!');
+            }
+          });
+        },function(cb){
+          easemobSDK.user.create(username,password,token,function(err, res, body){
+            if(!err && res.statusCode==200){
+              cb(null)
+            }else{
+              cb(err || 'could not create!');
+            }
+          });
         }
+      ],function(err,result){
+        done(err);
       });
     });
     after(function(done){
@@ -322,10 +338,11 @@ describe( 'User Test', function(){
       easemobSDK.user.get_offline_msg_status(username,msg_id ,token,function( err, res,body ){
         should.not.exists( err );
         res.statusCode.should.equal( 200 );
+        body.data.should.have.property(msg_id);
         done();
       });
     });
-  });*/
+  });
 
   describe( 'Deactivate user', function() {
     var username    = 'deactivate_wayne';
