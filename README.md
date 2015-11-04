@@ -1,4 +1,4 @@
-# easemob-sdk
+# easemob-sdk(环信即时通讯云)
 
 [![build status][travis-image]][travis-url]
 [![Coverage Status](https://coveralls.io/repos/leoliew/easemob-sdk/badge.svg?branch=master&service=github)](https://coveralls.io/github/leoliew/easemob-sdk?branch=master)
@@ -15,8 +15,7 @@
 [DependencyStatus-url]:https://gemnasium.com/leoliew/easemob-sdk
 
 
-easemob nodejs sdk
-[环信](http://www.easemob.com)SDK
+easemob([环信](http://www.easemob.com)) nodejs sdk
 
 
 [![npm status](https://nodei.co/npm/easemob-sdk.svg?downloads=true&stars=true&downloadRank=true)](https://www.npmjs.com/package/easemob-sdk)
