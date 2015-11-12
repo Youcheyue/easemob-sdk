@@ -34,6 +34,29 @@ describe( 'User Test', function(){
         done();
       });
     });
+  })
+
+
+  describe( 'Create user with nickname', function() {
+    var username = '13455667788';
+    var password = '123456';
+    var nickname = "create_leo_nickname";
+    after(function(done){
+      easemobSDK.user.remove(username,token,function(err, res, body){
+        if(!err && res.statusCode==200){
+          done();
+        }
+      });
+    });
+    it( 'Should return OK', function( done ) {
+      easemobSDK.user.create_with_nickname(username,password,nickname,token ,function( err, res,body ){
+        should.not.exists( err );
+        res.statusCode.should.equal( 200 );
+        body.entities[0].username.should.equal(username);
+        body.entities[0].nickname.should.equal(nickname);
+        done();
+      });
+    });
   });
 
 
