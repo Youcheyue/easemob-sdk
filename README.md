@@ -48,7 +48,7 @@ $ npm test
 ```js
 var easemob_sdk = require('easemob-sdk');
 easemob_sdk.init(org_name,app_name,client_id,client_secret);
-easemob_sdk.user.create( 'leo', 'leo_password', function(err, res, body) {
+easemob_sdk.user.create( 'leo', 'leo_password', token, function(err, res, body) {
   if(err || (res.statusCode != 200)) {
     // Handle the error
   }
